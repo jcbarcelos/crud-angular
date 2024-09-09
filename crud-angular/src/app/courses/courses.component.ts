@@ -6,7 +6,6 @@ import { CoursesService } from './services/courses.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SnackbarCustomComponent } from '../shared/components/snackbarcustom/snackbar.custom.component';
 
-
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -17,21 +16,19 @@ export class CoursesComponent {
   courses$: Observable<ICourses[]>;
 
   constructor(coursesService: CoursesService, public dialog: MatDialog) {
-    this.courses$ = coursesService
-      .listCourses()
-      .pipe(catchError((error) => {
+    this.courses$ = coursesService.listCourses().pipe(
+
+      catchError((error) => {
         console.error(error);
         this.openDialog('Error ao carregar cursos');
         return of([]);
-      }));
+      })
+    );
   }
-
-
 
   openDialog(errorMsg: string) {
     this.dialog.open(SnackbarCustomComponent, {
-      data: errorMsg
+      data: errorMsg,
     });
   }
-
 }
