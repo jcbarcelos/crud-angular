@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+.div-table {
+  margin: 0px 20px 0px 20px;
+}
+
+.mat-card {}
+
+.div-table,
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-card-header {
+  background-color: rgb(156, 39, 176);
+  color: white;
+}
+
+.mat-card-title {
+  margin: 10px 10px 0px 0px;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.loafing-spinner {
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(156, 39, 176, 0.03);
+}
