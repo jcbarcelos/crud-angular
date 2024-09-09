@@ -1,20 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SnackbarCustomComponent } from './snackbar.custom.component';
 
-import { SnackbarcustomComponent } from './snackbarcustom.component';
+
 
 describe('SnackbarcustomComponent', () => {
-  let component: SnackbarcustomComponent;
-  let fixture: ComponentFixture<SnackbarcustomComponent>;
+  let component: SnackbarCustomComponent;
+  let fixture: ComponentFixture<SnackbarCustomComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SnackbarcustomComponent ]
+      declarations: [ SnackbarCustomComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SnackbarcustomComponent);
+    fixture = TestBed.createComponent(SnackbarCustomComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

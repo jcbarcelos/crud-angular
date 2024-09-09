@@ -1,13 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material.module';
-import { SnackbarcustomComponent } from './components/snackbarcustom/snackbarcustom.component';
+import { SnackbarCustomComponent } from './components/snackbarcustom/snackbar.custom.component';
+import { CategoryPipe } from './pipes/category.pipe';
+
 
 
 
 @NgModule({
   declarations: [
-    SnackbarcustomComponent
+    SnackbarCustomComponent,
+    CategoryPipe
   ],
   imports: [
     CommonModule,
@@ -15,7 +18,8 @@ import { SnackbarcustomComponent } from './components/snackbarcustom/snackbarcus
   ],
   exports: [
     MaterialModule,
-    SnackbarcustomComponent
+    SnackbarCustomComponent,
+    CategoryPipe
   ],
 
 })

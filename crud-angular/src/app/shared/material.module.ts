@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
@@ -37,6 +37,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule
   ],
-
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MaterialModule { }

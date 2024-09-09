@@ -4,14 +4,15 @@ import { catchError } from 'rxjs/operators';
 import { ICourses } from './interfaces/ICourses';
 import { CoursesService } from './services/courses.service';
 import { MatDialog } from '@angular/material/dialog';
-import { SnackbarcustomComponent } from '../shared/components/snackbarcustom/snackbarcustom.component';
+import { SnackbarCustomComponent } from '../shared/components/snackbarcustom/snackbar.custom.component';
+
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements OnInit, OnDestroy {
+export class CoursesComponent {
   displayedColumns: string[] = ['name', 'category'];
   courses$: Observable<ICourses[]>;
 
@@ -25,14 +26,10 @@ export class CoursesComponent implements OnInit, OnDestroy {
       }));
   }
 
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
-
 
 
   openDialog(errorMsg: string) {
-    this.dialog.open(SnackbarcustomComponent, {
+    this.dialog.open(SnackbarCustomComponent, {
       data: errorMsg
     });
   }
