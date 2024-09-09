@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  crud-angular-db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    container_name: crud-angular-db
+    environment:
+      POSTGRES_USER: crudangular
+      POSTGRES_PASSWORD: crudangularpass
+      POSTGRES_DB: crudangulardb
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
