@@ -12,7 +12,7 @@ import { SnackbarCustomComponent } from '../shared/components/snackbarcustom/sna
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent {
-  displayedColumns: string[] = ['name', 'category'];
+  displayedColumns: string[] = ['name', 'category', 'actions'];
   courses$: Observable<ICourses[]>;
 
   constructor(coursesService: CoursesService, public dialog: MatDialog) {
