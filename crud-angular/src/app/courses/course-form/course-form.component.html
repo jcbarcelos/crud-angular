@@ -1,11 +1,18 @@
 <mat-card>
   <mat-toolbar color="primary">
     <span>Detalhes do Curso</span>
+
+    <button mat-button (click)="onCancel()">
+      <mat-icon>
+        arrow_back_ios_new
+      </mat-icon>
+    </button>
+
   </mat-toolbar>
 
   <mat-card-content>
     <p></p>
-    <form [formGroup]="form">
+    <form [formGroup]="form" class="min-width">
       <mat-form-field class="full-with">
         <input matInput placeholder="Name" formControlName="name">
       </mat-form-field>
@@ -13,7 +20,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category.name.toLowerCase()"  >
+          <mat-option *ngFor="let category of categories" [value]="category.name.toLowerCase()">
             {{category.name}}
           </mat-option>
         </mat-select>
