@@ -1,10 +1,11 @@
 <mat-card>
   <mat-card-header color="primary">
     <mat-card-title>Courses Available</mat-card-title>
-    <button mat-mini-fab aria-label="Adicionar curso">
-      <mat-icon (click)="onAdd()">add</mat-icon>
+    <button mat-mini-fab aria-label="Adicionar curso"  color="accent">
+      <mat-icon  (click)="onAdd()">add</mat-icon>
 
     </button>
+
   </mat-card-header>
   <div *ngIf="courses$ | async as courses; else loading ">
     <table mat-table [dataSource]="courses" class="mat-elevation-z8">

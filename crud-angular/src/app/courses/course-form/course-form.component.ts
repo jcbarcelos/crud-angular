@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { NonNullableFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import {
   MatSnackBar,
@@ -8,8 +8,10 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { SnackbarCustomComponent } from 'src/app/shared/components/snackbarcustom/snackbar.custom.component';
+
 import { ICategory } from '../interfaces/iCategory';
 import { CoursesService } from '../services/courses.service';
+import { ICourses } from '../interfaces/ICourses';
 
 @Component({
   selector: 'app-course-form',
@@ -20,19 +22,17 @@ export class CourseFormComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   form = this.formBuilder.group({
-    name: ['', {noNullable: true}],
+    name: [''],
     category: [''],
   });
 
   constructor(
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private location: Location
-  ) {
-
-  }
+  ) {}
 
   categories: ICategory[] = [
     {
@@ -48,9 +48,7 @@ export class CourseFormComponent implements OnInit {
       name: 'Back-End',
     },
   ];
-  ngOnInit(): void {
-    this.form.value.name = null;
-  }
+  ngOnInit(): void {}
 
   onSubmit() {
     this.service.saveCourses(this.form.value).subscribe(
