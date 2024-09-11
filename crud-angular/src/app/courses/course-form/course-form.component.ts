@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -21,7 +21,7 @@ export class CourseFormComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   categories: ICategory[] = [
     {
       _id: '',
@@ -38,7 +38,7 @@ export class CourseFormComponent implements OnInit {
   ];
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     private router: Router,
