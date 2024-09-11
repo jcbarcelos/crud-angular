@@ -14,15 +14,19 @@ table {
   width: 100%;
 }
 
-.mat-card-header {
+mat-card-header {
+  margin: 10px 0px 0 0;
   background-color: rgb(156, 39, 176);
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.mat-card-title {
-  margin: 10px 10px 0px 0px;
+mat-card-title{
+  align-items: center;
+  justify-content: center;
 }
-
 th.mat-sort-header-sorted {
   color: black;
 }
@@ -33,4 +37,10 @@ th.mat-sort-header-sorted {
   align-items: center;
   justify-content: center;
   background: rgba(156, 39, 176, 0.03);
+}
+
+
+button{
+  align-content: flex-end;
+  margin: 10px 20px;
 }
