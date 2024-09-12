@@ -9,9 +9,9 @@ import {
 } from '@angular/material/snack-bar';
 import { SnackbarCustomComponent } from 'src/app/shared/components/snackbarcustom/snackbar.custom.component';
 
-import { ICategory } from '../interfaces/iCategory';
-import { CoursesService } from '../services/courses.service';
-import { ICourses } from '../interfaces/ICourses';
+import { ICategory } from '../../interfaces/iCategory';
+import { CoursesService } from '../../services/courses.service';
+import { ICourses } from '../../interfaces/ICourses';
 
 @Component({
   selector: 'app-course-form',

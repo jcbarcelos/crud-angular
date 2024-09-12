@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
-import { CoursesService } from '../services/courses.service';
-import { ICourses } from '../interfaces/ICourses';
+import { ICourses } from '../../interfaces/ICourses';
 
 @Component({
   selector: 'app-courses-list',
@@ -15,12 +13,10 @@ export class CoursesListComponent implements OnInit {
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  constructor(
-    public coursesService: CoursesService,
-    public dialog: MatDialog
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {}
+
   onEdit(course: ICourses) {
     this.edit.emit(course);
   }
