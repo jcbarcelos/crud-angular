@@ -7,6 +7,7 @@ import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -37,8 +38,10 @@ export class CoursesComponent {
     });
   }
   onAdd() {
-    this.router.navigate(['new'], {relativeTo: this.route})
+    this.router.navigate(['new'], { relativeTo: this.route });
   }
-  onEdit(id: string){}
-  onDelete(id: string){}
+  onEdit(course: any) {
+    console.log('edit', course);
+  }
+  onDelete(course: any) { console.log('delete', course);}
 }
