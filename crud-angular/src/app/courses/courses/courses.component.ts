@@ -41,7 +41,7 @@ export class CoursesComponent {
     this.router.navigate(['new'], { relativeTo: this.route });
   }
   onEdit(course: any) {
-    console.log('edit', course);
+    this.router.navigate(['edit', course.id], { relativeTo: this.route });
   }
   onDelete(course: any) { console.log('delete', course);}
 }

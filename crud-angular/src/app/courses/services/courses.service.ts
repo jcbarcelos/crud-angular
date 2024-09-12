@@ -15,6 +15,9 @@ export class CoursesService {
   listCourses() {
     return this.httpClient.get<ICourses[]>(this.API).pipe(first());
   }
+  getByIdCourses(id: string ) {
+    return this.httpClient.get<ICourses>(`${this.API}/${id}`);
+  }
 
   saveCourses(record: Partial<ICourses>) {
     return this.httpClient.post<ICourses>(this.API, record).pipe(first());

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ICourses } from '../../interfaces/ICourses';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-courses-list',
@@ -10,10 +11,16 @@ import { ICourses } from '../../interfaces/ICourses';
 export class CoursesListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'category', 'actions'];
   @Input() courses: ICourses[] = [];
+  dataSource: MatTableDataSource<ICourses>;
+
   @Output() edit = new EventEmitter(false);
   @Output() remove = new EventEmitter(false);
 
-  constructor() {}
+  constructor() {
+    this.dataSource = new MatTableDataSource(this.courses);
+    console.log( this.dataSource);
+
+  }
 
   ngOnInit(): void {}
 
@@ -23,4 +30,12 @@ export class CoursesListComponent implements OnInit {
   onDelete(course: ICourses) {
     this.remove.emit(course);
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+
+  }
+
 }

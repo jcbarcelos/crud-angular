@@ -1,3 +1,9 @@
+<mat-form-field appearance="standard">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+
+
 <mat-table [dataSource]="courses">
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
@@ -7,7 +13,7 @@
   <ng-container matColumnDef="category">
     <mat-header-cell *matHeaderCellDef> Category </mat-header-cell>
     <mat-header-cell *matCellDef="let element"> {{element.category}}
-      <mat-icon arial-hidden aria-label="Categoria do curso">{{element.category | category}}</mat-icon>
+      <mat-icon arial-hidden aria-label="Categoria do curso" class="icon_actions">{{element.category | category}}</mat-icon>
     </mat-header-cell>
   </ng-container>
   <ng-container matColumnDef="actions">
@@ -24,4 +30,10 @@
   </ng-container>
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+   <!-- Row shown when there is no matching data. -->
+   <mat-header-row class="mat-row" *matNoDataRow>
+    <mat-header-cell class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</mat-header-cell>
+  </mat-header-row>
+
 </mat-table>

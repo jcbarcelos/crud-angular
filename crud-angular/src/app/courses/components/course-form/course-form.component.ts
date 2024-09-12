@@ -11,6 +11,7 @@ import { SnackbarCustomComponent } from 'src/app/shared/components/snackbarcusto
 
 import { ICategory } from '../../interfaces/iCategory';
 import { CoursesService } from '../../services/courses.service';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ICourses } from '../../interfaces/ICourses';
 
 @Component({
@@ -22,6 +23,7 @@ export class CourseFormComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   form = this.formBuilder.group({
+    id: [''],
     name: [''],
     category: [''],
   });
@@ -31,7 +33,8 @@ export class CourseFormComponent implements OnInit {
     private service: CoursesService,
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {}
 
   categories: ICategory[] = [
@@ -48,7 +51,16 @@ export class CourseFormComponent implements OnInit {
       name: 'Back-End',
     },
   ];
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const course: ICourses = this.route.snapshot.data["course"];
+    this.form.patchValue({
+      id: course.id,
+      name: course.name,
+      category: course.category,
+
+    })
+
+  }
 
   onSubmit() {
     this.service.saveCourses(this.form.value).subscribe(

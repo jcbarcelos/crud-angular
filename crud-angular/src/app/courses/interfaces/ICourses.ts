@@ -1,5 +1,5 @@
 export interface ICourses {
-  _id: string;
+  id: string;
   category: string;
   name: string;
 }
