@@ -15,11 +15,24 @@ export class CoursesService {
   listCourses() {
     return this.httpClient.get<ICourses[]>(this.API).pipe(first());
   }
-  getByIdCourses(id: string ) {
+  getByIdCourses(id: string) {
     return this.httpClient.get<ICourses>(`${this.API}/${id}`);
   }
 
   saveCourses(record: Partial<ICourses>) {
-    return this.httpClient.post<ICourses>(this.API, record).pipe(first());
+    if (record.id) {
+      return   this.updateCourses(record);
+    }
+    return this.create(record);
+  }
+
+  updateCourses(record: Partial<ICourses>) {
+    return this.httpClient
+      .put<ICourses>(`${this.API}/${record.id}`, record)
+      ;
+  }
+
+  private create(record: Partial<ICourses>) {
+    return this.httpClient.post<ICourses>(`${this.API}`, record).pipe(first());
   }
 }
