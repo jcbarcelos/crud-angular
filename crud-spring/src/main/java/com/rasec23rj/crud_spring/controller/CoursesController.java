@@ -3,6 +3,7 @@ package com.rasec23rj.crud_spring.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,10 @@ public class CoursesController {
     }
 
     @GetMapping("/{id}")
-    public Courses getById(@PathVariable("id") Long id) {
-        return coursesRepository.findById(id).get();
+    public ResponseEntity<Courses> getById(@PathVariable("id") Long id) {
+
+        return coursesRepository.findById(id)
+                .map(record -> ResponseEntity.ok().body(record))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
