@@ -1,21 +1,17 @@
-table {
-  width: 100%;
+mat-card {
+  max-width: 80%;
+  justify-content: center;
+  margin: 2em auto;
+  text-align: center;
 }
-
-.div-table {
-  margin: 0px 20px 0px 20px;
-}
-
-.mat-card {}
-
-.div-table,
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
+.column-flex {
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
 }
 
 mat-card-header {
-  margin: 10px 0px 0 0;
+  padding: 0px;
   background-color: rgb(156, 39, 176);
   color: white;
   display: flex;
@@ -23,12 +19,9 @@ mat-card-header {
   justify-content: space-between;
 }
 
-mat-card-title{
+mat-card-title {
   align-items: center;
   justify-content: center;
-}
-th.mat-sort-header-sorted {
-  color: black;
 }
 
 .loafing-spinner {
@@ -40,7 +33,7 @@ th.mat-sort-header-sorted {
 }
 
 
-button{
+button {
   align-content: flex-end;
   margin: 10px 20px;
 }
