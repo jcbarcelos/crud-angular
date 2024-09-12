@@ -31,6 +31,11 @@ export class CoursesService {
       .put<ICourses>(`${this.API}/${record.id}`, record)
       ;
   }
+  deleteCourses(record: Partial<ICourses>) {
+    return this.httpClient
+      .delete<ICourses>(`${this.API}/${record.id}`)
+      ;
+  }
 
   private create(record: Partial<ICourses>) {
     return this.httpClient.post<ICourses>(`${this.API}`, record).pipe(first());

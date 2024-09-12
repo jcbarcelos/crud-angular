@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,9 +48,29 @@ public class CoursesController {
     }
 
     @PutMapping("/{id}")
-    public Courses updateCourses(@PathVariable String id, @RequestBody Courses courses) {
-        return coursesRepository.saveAndFlush(courses);
+    public ResponseEntity<Courses> updateCourses(@PathVariable Long id, @RequestBody Courses courses) {
+
+        return coursesRepository.findById(id)
+                .map(record -> {
+                    record.setName(courses.getName());
+                    record.setCategory(courses.getCategory());
+                    Courses updatedCourses = coursesRepository.save(record);
+                    return ResponseEntity.ok().body(updatedCourses);
+                })
+                .orElse(ResponseEntity.notFound().build());
+
     }
-   
+
+    @DeleteMapping("/{id}")
+     public ResponseEntity<Void> deleteCourses(@PathVariable Long id) {
+
+        return coursesRepository.findById(id)
+                .map(record -> {
+                    coursesRepository.deleteById(id);
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
+
+    }
 
 }

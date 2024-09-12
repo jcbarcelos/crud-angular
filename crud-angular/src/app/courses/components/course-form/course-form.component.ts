@@ -23,11 +23,10 @@ export class CourseFormComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   form = this.formBuilder.group({
-    id: ['null'],
+    id: [''],
     name: [''],
     category: [''],
   });
-  course: ICourses = this.route.snapshot.data['course'];
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -53,11 +52,14 @@ export class CourseFormComponent implements OnInit {
     },
   ];
   ngOnInit(): void {
+    const course: ICourses = this.route.snapshot.data["course"];
     this.form.patchValue({
-      id: this.course.id,
-      name: this.course.name,
-      category: this.course.category,
-    });
+      id: course.id,
+      name: course.name,
+      category: course.category,
+
+    })
+
   }
 
   onSubmit() {

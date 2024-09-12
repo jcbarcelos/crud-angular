@@ -22,7 +22,9 @@ export class CoursesListComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   onEdit(course: ICourses) {
     this.edit.emit(course);
