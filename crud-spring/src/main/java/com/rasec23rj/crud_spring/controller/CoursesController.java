@@ -18,6 +18,9 @@ import com.rasec23rj.crud_spring.models.Courses;
 import com.rasec23rj.crud_spring.repository.CoursesRepository;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -33,7 +36,7 @@ public class CoursesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Courses> getById(@PathVariable("id") Long id) {
+    public ResponseEntity<Courses> getById(@PathVariable("id") @NotNull @Positive Long id) {
 
         return coursesRepository.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
@@ -43,12 +46,13 @@ public class CoursesController {
     @Transactional
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Courses saveCourses(@RequestBody Courses courses) {
+    public Courses saveCourses(@RequestBody @Valid Courses courses) {
         return coursesRepository.save(courses);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Courses> updateCourses(@PathVariable Long id, @RequestBody Courses courses) {
+    public ResponseEntity<Courses> updateCourses(@PathVariable @NotNull @Positive Long id,
+            @RequestBody @Valid Courses courses) {
 
         return coursesRepository.findById(id)
                 .map(record -> {
@@ -62,7 +66,7 @@ public class CoursesController {
     }
 
     @DeleteMapping("/{id}")
-     public ResponseEntity<Void> deleteCourses(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCourses(@PathVariable @NotNull @Positive Long id) {
 
         return coursesRepository.findById(id)
                 .map(record -> {
