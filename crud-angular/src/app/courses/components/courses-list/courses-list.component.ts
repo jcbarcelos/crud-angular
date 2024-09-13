@@ -18,13 +18,10 @@ export class CoursesListComponent implements OnInit {
 
   constructor() {
     this.dataSource = new MatTableDataSource(this.courses);
-    console.log( this.dataSource);
-
+    console.log(this.dataSource);
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   onEdit(course: ICourses) {
     this.edit.emit(course);
@@ -36,8 +33,5 @@ export class CoursesListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-
   }
-
 }

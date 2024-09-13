@@ -71,7 +71,6 @@ export class CoursesComponent {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
-
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
