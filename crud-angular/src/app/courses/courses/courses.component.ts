@@ -12,6 +12,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 
 @Component({
   selector: 'app-courses',
@@ -29,7 +30,8 @@ export class CoursesComponent {
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private notificationAlertService: NotificationAlertService
   ) {
     this.refresh();
   }
@@ -63,25 +65,19 @@ export class CoursesComponent {
       if (result) {
         this.coursesService.deleteCourses(course).subscribe(
           () => {
-            this.onSuccess();
+            this.onSuccess('Delete success');
           },
           () => this.onError('Error save courses!')
         );
       }
     });
   }
-  private onSuccess() {
-    this.openSnackBar('Delete courses success!', 'X');
+
+  onSuccess(message: string) {
+    this.notificationAlertService.openSnackBar(message, true);
     this.refresh();
   }
-  private onError(message: string) {
-    this.openSnackBar(message, '');
-  }
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+  onError(message: string) {
+    this.notificationAlertService.openSnackBar(message, false);
   }
 }
