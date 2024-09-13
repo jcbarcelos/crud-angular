@@ -28,4 +28,6 @@ mat-table {
               0px 6px 10px 0px rgba(255, 0, 0, 0.14),
               0px 1px 18px 0px rgba(255, 0, 0, 0.12) !important;
 }
-
+.mat-form-field-appearance-legacy, .mat-form-field-wrapper {
+  margin: 0 20px !important;
+}
