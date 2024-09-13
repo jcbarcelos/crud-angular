@@ -12,11 +12,14 @@
 
   <mat-card-content>
     <p></p>
-    <form [formGroup]="form" class="min-width">
-      <mat-form-field class="full-with">
-        <input matInput placeholder="Name" formControlName="name">
-      </mat-form-field>
+    <form [formGroup]="form" class="min-width" appearance="legacy">
+      <mat-form-field class="full-with" appearance="legacy">
+        <input matInput placeholder="Nome" formControlName="name" required #name>
+        <mat-error *ngIf="form.get('name')?.invalid | json">{{getErrorMessage('name')}} </mat-error>
 
+        <mat-hint align="end">{{name.value.length || 0 }} / 200</mat-hint>
+      </mat-form-field>
+      <p></p>
       <mat-form-field appearance="fill">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
@@ -24,12 +27,14 @@
             {{category.name}}
           </mat-option>
         </mat-select>
+        <mat-error *ngIf="form.get('category')?.invalid">{{getErrorMessage('category')}}</mat-error>
       </mat-form-field>
 
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()"
+      disabled="{{form.invalid ? true : false}}">Salvar</button>
     <button mat-raised-button (click)="onCancel()">Cancelar</button>
   </mat-card-actions>
 

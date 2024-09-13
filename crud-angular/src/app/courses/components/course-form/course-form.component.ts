@@ -1,21 +1,14 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
-import { SnackbarCustomComponent } from 'src/app/shared/components/snackbarcustom/snackbar.custom.component';
 
-import { ICategory } from '../../interfaces/iCategory';
-import { CoursesService } from '../../services/courses.service';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ICourses } from '../../interfaces/ICourses';
+import { ActivatedRoute } from '@angular/router';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { NotificationAlertComponent } from 'src/app/shared/components/notification-alert/notification-alert.component';
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
+import { ICategory } from '../../interfaces/iCategory';
+import { ICourses } from '../../interfaces/ICourses';
+import { CoursesService } from '../../services/courses.service';
 
 @Component({
   selector: 'app-course-form',
@@ -25,8 +18,16 @@ import { NotificationAlertService } from 'src/app/shared/components/notification
 export class CourseFormComponent implements OnInit {
   form = this.formBuilder.group({
     id: [''],
-    name: [''],
-    category: [''],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.required,
+        Validators.minLength(5),
+      ],
+    ],
+    category: ['', Validators.required],
   });
 
   constructor(
@@ -61,6 +62,27 @@ export class CourseFormComponent implements OnInit {
     });
   }
 
+  getErrorMessage(fieldName: string) {
+    const field = this.form.get(fieldName);
+
+    if (field?.hasError('required')) {
+      return 'Campo obrigatório';
+    }
+    if (field?.hasError('maxlength')) {
+      const requiredLength: number = field.errors
+        ? field.errors['maxlength']['requiredLength']
+        : 200;
+      return `Campo deve ter no máximo de ${requiredLength} `;
+    }
+    if (field?.hasError('minlength')) {
+      const requiredLength: number = field.errors
+        ? field.errors['minlength']['requiredLength']
+        : 5;
+      return `Campo deve ter no mínimo de ${requiredLength} `;
+    }
+    return field;
+  }
+
   onSubmit() {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'Salvo com sucesso, deseja continuar cadastrando?',
@@ -70,9 +92,12 @@ export class CourseFormComponent implements OnInit {
         this.service.saveCourses(this.form.value).subscribe(
           () => {
             this.onSuccess();
+
           },
           (_) => this.onError()
         );
+      }else {
+        this.onCancel();
       }
     });
   }
@@ -93,8 +118,7 @@ export class CourseFormComponent implements OnInit {
       true
     );
   }
-
-  showError() {
+   showError() {
     this.notificationAlertService.openSnackBar(
       'Falha ao realizar a operação!',
       false
