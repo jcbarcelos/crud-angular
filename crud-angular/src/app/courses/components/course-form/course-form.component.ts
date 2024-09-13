@@ -13,6 +13,9 @@ import { ICategory } from '../../interfaces/iCategory';
 import { CoursesService } from '../../services/courses.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { ICourses } from '../../interfaces/ICourses';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { NotificationAlertComponent } from 'src/app/shared/components/notification-alert/notification-alert.component';
+import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 
 @Component({
   selector: 'app-course-form',
@@ -20,8 +23,6 @@ import { ICourses } from '../../interfaces/ICourses';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
   form = this.formBuilder.group({
     id: [''],
     name: [''],
@@ -31,10 +32,10 @@ export class CourseFormComponent implements OnInit {
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
-    private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private notificationAlertService: NotificationAlertService
   ) {}
 
   categories: ICategory[] = [
@@ -52,43 +53,51 @@ export class CourseFormComponent implements OnInit {
     },
   ];
   ngOnInit(): void {
-    const course: ICourses = this.route.snapshot.data["course"];
+    const course: ICourses = this.route.snapshot.data['course'];
     this.form.patchValue({
       id: course.id,
       name: course.name,
       category: course.category,
-
-    })
-
+    });
   }
 
   onSubmit() {
-    this.service.saveCourses(this.form.value).subscribe(
-      () => {
-        this.onSuccess();
-      },
-      (_) => this.onError()
-    );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Salvo com sucesso, deseja continuar cadastrando?',
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.service.saveCourses(this.form.value).subscribe(
+          () => {
+            this.onSuccess();
+          },
+          (_) => this.onError()
+        );
+      }
+    });
   }
 
   onCancel() {
     this.location.back();
   }
   private onSuccess() {
-    this.openSnackBar('Save courses success!', 'Voltar');
+    this.showSuccess();
     this.form.reset();
   }
   private onError() {
-    this.openSnackBar('Error save courses!', '');
+    this.showError();
   }
-  openSnackBar(message: string, action: string) {
-    this.dialog.open(SnackbarCustomComponent, {
-      data: message,
-    });
-    this._snackBar.open(message, action, {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+  showSuccess() {
+    this.notificationAlertService.openSnackBar(
+      'Operação realizada com sucesso!',
+      true
+    );
+  }
+
+  showError() {
+    this.notificationAlertService.openSnackBar(
+      'Falha ao realizar a operação!',
+      false
+    );
   }
 }

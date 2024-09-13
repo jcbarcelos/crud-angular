@@ -11,6 +11,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-courses',
@@ -54,12 +55,20 @@ export class CoursesComponent {
     this.router.navigate(['edit', course.id], { relativeTo: this.route });
   }
   onDelete(course: any) {
-    this.coursesService.deleteCourses(course).subscribe(
-      () => {
-        this.onSuccess();
-      },
-      () => this.onError('Error save courses!')
-    );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: 'Tem certeza que deseja remover esse curso',
+    });
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      console.log('The dialog was closed');
+      if (result) {
+        this.coursesService.deleteCourses(course).subscribe(
+          () => {
+            this.onSuccess();
+          },
+          () => this.onError('Error save courses!')
+        );
+      }
+    });
   }
   private onSuccess() {
     this.openSnackBar('Delete courses success!', 'X');

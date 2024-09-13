@@ -4,6 +4,7 @@ import { MaterialModule } from './material.module';
 import { SnackbarCustomComponent } from './components/snackbarcustom/snackbar.custom.component';
 import { CategoryPipe } from './pipes/category.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { NotificationAlertComponent } from './components/notification-alert/notification-alert.component';
 
 
 
@@ -12,7 +13,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
   declarations: [
     SnackbarCustomComponent,
     CategoryPipe,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NotificationAlertComponent
   ],
   imports: [
     CommonModule,
