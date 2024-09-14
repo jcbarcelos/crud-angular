@@ -24,7 +24,7 @@ export class CourseFormComponent implements OnInit {
         Validators.required,
         Validators.maxLength(200),
         Validators.required,
-        Validators.minLength(5),
+        Validators.minLength(2),
       ],
     ],
     category: ['', Validators.required],
@@ -92,11 +92,14 @@ export class CourseFormComponent implements OnInit {
         this.service.saveCourses(this.form.value).subscribe(
           () => {
             this.onSuccess();
-
           },
-          (_) => this.onError()
+          (error) => {
+            console.log(error['error']['errors'][0]['codes']);
+
+            return this.showError(error);
+          }
         );
-      }else {
+      } else {
         this.onCancel();
       }
     });
@@ -110,7 +113,7 @@ export class CourseFormComponent implements OnInit {
     this.form.reset();
   }
   private onError() {
-    this.showError();
+    this.showError('');
   }
   showSuccess() {
     this.notificationAlertService.openSnackBar(
@@ -118,10 +121,7 @@ export class CourseFormComponent implements OnInit {
       true
     );
   }
-   showError() {
-    this.notificationAlertService.openSnackBar(
-      'Falha ao realizar a operação!',
-      false
-    );
+  showError(message: string) {
+    this.notificationAlertService.openSnackBar(message, false);
   }
 }

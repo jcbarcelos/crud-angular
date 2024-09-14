@@ -32,7 +32,7 @@ public class CoursesController {
 
     @GetMapping()
     public List<Courses> listCourses() {
-        return coursesRepository.findAll();
+        return coursesRepository.findStatus();
     }
 
     @GetMapping("/{id}")
@@ -50,6 +50,7 @@ public class CoursesController {
         return coursesRepository.save(courses);
     }
 
+    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<Courses> updateCourses(@PathVariable @NotNull @Positive Long id,
             @RequestBody @Valid Courses courses) {
@@ -65,6 +66,7 @@ public class CoursesController {
 
     }
 
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourses(@PathVariable @NotNull @Positive Long id) {
 
