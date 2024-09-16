@@ -30,7 +30,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements AfterViewInit, OnInit {
+export class CoursesComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'category', 'status', 'actions'];
   courses$: Observable<ICourses[]> | null = null;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
@@ -38,8 +38,9 @@ export class CoursesComponent implements AfterViewInit, OnInit {
 
   pageIndex = 0;
   pageSize = 5;
+  pageLength=100
   totalElements = 0;
-  dataSource = new MatTableDataSource<ICourses>();
+  dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -54,9 +55,6 @@ export class CoursesComponent implements AfterViewInit, OnInit {
   ) {
     this.loadData();
   }
-  ngOnInit(): void {
-    this.loadData();
-  }
 
   async loadData(
     pageEvent: PageEvent = {
@@ -65,11 +63,11 @@ export class CoursesComponent implements AfterViewInit, OnInit {
       pageSize: 5,
     }
   ) {
-    this.courses$ =  this.coursesService
+    this.courses$ = this.coursesService
       .listCourses(pageEvent.pageIndex, pageEvent.pageSize)
       .pipe(
         tap((result) => {
-          this.dataSource = new MatTableDataSource(result.content);
+          this.dataSource =  new MatTableDataSource(result.content);
           this.pageIndex = pageEvent.pageIndex;
           this.pageSize = pageEvent.pageSize;
           this.totalElements = result.totalElements;
@@ -87,12 +85,14 @@ export class CoursesComponent implements AfterViewInit, OnInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
-
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
+    if (filterValue.trim() == '') {
+      this.loadData();
+    }
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -114,7 +114,6 @@ export class CoursesComponent implements AfterViewInit, OnInit {
       data: 'Tem certeza que deseja remover esse curso',
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
-
       if (result == true) {
         this.coursesService.deleteCourses(course).subscribe(
           () => {
