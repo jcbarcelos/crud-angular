@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+
+import { NotificationAlertComponent } from './notification-alert.component';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { NotificationAlertComponent } from './notification-alert.component';
 
 @Injectable({
   providedIn: 'root',

@@ -7,16 +7,26 @@
   </mat-card-header>
 
   <mat-card-content>
-
-    <app-courses-list class="column-flex mat-elevation-z8" [dataSource]="dataSource" (edit)="onEdit($event)"
-      (remove)="onDelete($event)" (applyFilter)="applyFilter($event)" [paginator]="paginator"
-      [displayedColumns]="displayedColumns">
-
+    <app-courses-list
+      class="mat-elevation-z8"
+      [dataSource]="dataSource"
+      (edit)="onEdit($event)"
+      (remove)="onDelete($event)"
+      (applyFilter)="applyFilter($event)"
+      [paginator]="paginator"
+      [displayedColumns]="displayedColumns"
+    >
     </app-courses-list>
 
-    <mat-paginator [pageIndex]="pageIndex" [pageSize]="pageSize" [length]="totalElements" [pageLength]="totalElements"
-      (page)="loadData($event)" [pageSizeOptions]="[2,5, 10, 20]" showFirstLastButtons="true"></mat-paginator>
-
+    <mat-paginator
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="totalElements"
+      [pageLength]="totalElements"
+      (page)="loadData($event)"
+      [pageSizeOptions]="[2, 5, 10, 20]"
+      showFirstLastButtons="true"
+    ></mat-paginator>
   </mat-card-content>
 
   <ng-template #loading>
@@ -24,3 +34,4 @@
       <mat-spinner></mat-spinner>
     </div>
   </ng-template>
+</mat-card>

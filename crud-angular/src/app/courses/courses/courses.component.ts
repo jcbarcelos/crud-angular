@@ -24,9 +24,8 @@ import { CoursesService } from '../services/courses.service';
   styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements AfterViewInit {
-  displayedColumns: string[] = ['id', 'name', 'category', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'category', 'actions'];
   courses$: Observable<ICourses[]> | null = null;
-
 
   pageIndex = 0;
   pageSize = 5;

@@ -3,39 +3,63 @@
     <span>Detalhes do Curso</span>
 
     <button mat-button (click)="onCancel()">
-      <mat-icon>
-        arrow_back_ios_new
-      </mat-icon>
+      <mat-icon> arrow_back_ios_new </mat-icon>
     </button>
-
   </mat-toolbar>
-
+  <p></p>
   <mat-card-content>
-    <p></p>
-    <form [formGroup]="form" class="min-width">
-      <mat-form-field class="full-with">
-        <input matInput placeholder="Nome" formControlName="name" required #name>
-        <mat-error *ngIf="form.get('name')?.invalid | json">{{getErrorMessage('name')}} </mat-error>
 
-        <mat-hint align="end">{{name.value.length || 0 }} / 200</mat-hint>
+    <form [formGroup]="form" class="min-width">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Nome"
+          formControlName="name"
+          required
+          #name
+        />
+        <mat-error *ngIf="form.get('name')?.invalid | json"
+          >{{ getErrorMessage("name") }}
+        </mat-error>
+
+        <mat-hint align="end">{{ name.value.length || 0 }} / 200</mat-hint>
       </mat-form-field>
       <p></p>
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
-          <mat-option *ngFor="let category of categories" [value]="category.name">
-            {{category.name}}
+          <mat-option
+            *ngFor="let category of categories"
+            [value]="category.name"
+          >
+            {{ category.name }}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="form.get('category')?.invalid">{{getErrorMessage('category')}}</mat-error>
+        <mat-error *ngIf="form.get('category')?.invalid">{{
+          getErrorMessage("category")
+        }}</mat-error>
       </mat-form-field>
-
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="primary" (click)="onSubmit()"
-      disabled="{{form.invalid ? true : false}}">Salvar</button>
-    <button mat-raised-button (click)="onCancel()">Cancelar</button>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          class="button-actions"
+          disabled="{{ form.invalid ? true : false }}"
+        >
+          Salvar
+        </button>
+        </mat-grid-tile
+      >
+      <mat-grid-tile>
+        <button mat-raised-button (click)="onCancel()">
+          Cancelar
+        </button></mat-grid-tile
+      >
+    </mat-grid-list>
   </mat-card-actions>
-
 </mat-card>

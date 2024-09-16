@@ -14,16 +14,6 @@
     0px 1px 18px 0px rgba(255, 0, 0, 0.12) !important;
 }
 
-mat-table {
-  width: 100%;
-
-
-}
-
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
-}
 
 .mat-cell,
 .cdk-cell,
@@ -32,4 +22,39 @@ mat-table {
 .ng-star-inserted {
   padding: 0px 0 0 10px;
 
+}
+
+mat-table {
+  width: 100%;
+  overflow: auto;
+  min-width: 600px;
+}
+
+.mat-mdc-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.actions {
+  flex: 0 0 85px;
+
+}
+
+.action-column {
+  flex: 0 0 125px;
+  justify-content: center;
+}
+
+
+.action-column-header {
+  margin: 0 auto;
+}
+
+mat-form-field {
+  padding: 14px 15px 1px 0px !important
 }

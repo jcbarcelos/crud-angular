@@ -38,3 +38,13 @@ mat-toolbar button {
 mat-error, mat-hint {
   font-size: medium;
 }
+mat-card-actions {
+ justify-content: center;
+  align-items: end;
+}
+.button-actions{
+  margin-right: 20px;
+}
+mat-hint{
+  color: white;
+}
