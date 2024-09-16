@@ -1,7 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  DoCheck,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { SnackbarCustomComponent } from '../../shared/components/snackbarcustom/snackbar.custom.component';
 import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
@@ -13,36 +21,81 @@ import {
 } from '@angular/material/snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent {
-  displayedColumns: string[] = ['name', 'category', 'actions'];
-  courses$: Observable<ICourses[]> | undefined;
+export class CoursesComponent implements AfterViewInit, OnInit {
+  displayedColumns: string[] = ['id', 'name', 'category', 'status', 'actions'];
+  courses$: Observable<ICourses[]> | null = null;
   horizontalPosition: MatSnackBarHorizontalPosition = 'right';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
+
+  pageIndex = 0;
+  pageSize = 5;
+  totalElements = 0;
+  dataSource = new MatTableDataSource<ICourses>();
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private coursesService: CoursesService,
     public dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
     private notificationAlertService: NotificationAlertService
   ) {
-    this.refresh();
+    this.loadData();
   }
-  refresh() {
-    this.courses$ = this.coursesService.listCourses().pipe(
-      catchError((error) => {
-        console.error(error);
-        this.openDialog('Error ao carregar cursos');
-        return of([]);
-      })
-    );
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  async loadData(
+    pageEvent: PageEvent = {
+      length: 0,
+      pageIndex: 0,
+      pageSize: 5,
+    }
+  ) {
+    this.courses$ =  this.coursesService
+      .listCourses(pageEvent.pageIndex, pageEvent.pageSize)
+      .pipe(
+        tap((result) => {
+          this.dataSource = new MatTableDataSource(result.content);
+          this.pageIndex = pageEvent.pageIndex;
+          this.pageSize = pageEvent.pageSize;
+          this.totalElements = result.totalElements;
+          this.paginator.length = this.totalElements;
+
+        }),
+        catchError((_) => {
+          this.onError('Erro ao carregar cursos.');
+          return of([]);
+        })
+      );
+    this.courses$.subscribe();
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.cdr.detectChanges();
+
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   openDialog(errorMsg: string) {
@@ -61,11 +114,12 @@ export class CoursesComponent {
       data: 'Tem certeza que deseja remover esse curso',
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      console.log('The dialog was closed');
-      if (result) {
+
+      if (result == true) {
         this.coursesService.deleteCourses(course).subscribe(
           () => {
             this.onSuccess('Delete success');
+            this.loadData();
           },
           () => this.onError('Error save courses!')
         );
@@ -75,7 +129,6 @@ export class CoursesComponent {
 
   onSuccess(message: string) {
     this.notificationAlertService.openSnackBar(message, true);
-    this.refresh();
   }
   onError(message: string) {
     this.notificationAlertService.openSnackBar(message, false);

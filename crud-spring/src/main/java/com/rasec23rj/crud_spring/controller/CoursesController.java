@@ -1,7 +1,9 @@
 package com.rasec23rj.crud_spring.controller;
 
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,34 +13,41 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rasec23rj.crud_spring.models.Courses;
-import com.rasec23rj.crud_spring.repository.CoursesRepository;
+import com.rasec23rj.crud_spring.service.CoursesService;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/courses")
-@RequiredArgsConstructor
+
 public class CoursesController {
 
-    private final CoursesRepository coursesRepository;
+    private final CoursesService coursesService;
+
+    CoursesController(CoursesService coursesService) {
+        this.coursesService = coursesService;
+    }
 
     @GetMapping()
-    public List<Courses> listCourses() {
-        return coursesRepository.findStatus();
+    public Page<Courses> listCourses(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return coursesService.getCourses(pageable);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Courses> getById(@PathVariable("id") @NotNull @Positive Long id) {
 
-        return coursesRepository.findById(id)
+        return coursesService.findById(id)
                 .map(record -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -47,7 +56,7 @@ public class CoursesController {
     @PostMapping()
     @ResponseStatus(code = HttpStatus.CREATED)
     public Courses saveCourses(@RequestBody @Valid Courses courses) {
-        return coursesRepository.save(courses);
+        return coursesService.save(courses);
     }
 
     @Transactional
@@ -55,24 +64,23 @@ public class CoursesController {
     public ResponseEntity<Courses> updateCourses(@PathVariable @NotNull @Positive Long id,
             @RequestBody @Valid Courses courses) {
 
-        return coursesRepository.findById(id)
+        return coursesService.findById(id)
                 .map(record -> {
                     record.setName(courses.getName());
                     record.setCategory(courses.getCategory());
-                    Courses updatedCourses = coursesRepository.save(record);
+                    Courses updatedCourses = coursesService.save(record);
                     return ResponseEntity.ok().body(updatedCourses);
                 })
                 .orElse(ResponseEntity.notFound().build());
 
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCourses(@PathVariable @NotNull @Positive Long id) {
 
-        return coursesRepository.findById(id)
-                .map(record -> {
-                    coursesRepository.deleteById(id);
+        return coursesService.findById(id)
+                .map(result -> {
+                    coursesService.deleteById(id);
                     return ResponseEntity.noContent().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());

@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ICourses } from '../interfaces/ICourses';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,11 @@ export class CoursesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  listCourses() {
-    return this.httpClient.get<ICourses[]>(this.API).pipe(first());
+  listCourses(page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.httpClient.get<ICourses[]>(this.API, { params });
   }
   getByIdCourses(id: string) {
     return this.httpClient.get<ICourses>(`${this.API}/${id}`);
@@ -21,20 +25,16 @@ export class CoursesService {
 
   saveCourses(record: Partial<ICourses>) {
     if (record.id) {
-      return   this.updateCourses(record);
+      return this.updateCourses(record);
     }
     return this.create(record);
   }
 
   updateCourses(record: Partial<ICourses>) {
-    return this.httpClient
-      .put<ICourses>(`${this.API}/${record.id}`, record)
-      ;
+    return this.httpClient.put<ICourses>(`${this.API}/${record.id}`, record);
   }
   deleteCourses(record: Partial<ICourses>) {
-    return this.httpClient
-      .delete<ICourses>(`${this.API}/${record.id}`)
-      ;
+    return this.httpClient.delete<ICourses>(`${this.API}/${record.id}`);
   }
 
   private create(record: Partial<ICourses>) {

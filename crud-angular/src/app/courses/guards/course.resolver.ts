@@ -22,7 +22,10 @@ export class CourseResolver implements Resolve<ICourses> {
       return this.coursesService.getByIdCourses(route.params['id']);
     }
     return of({
-      id: '', name: '', category: ''
+      id: '',
+      name: '',
+      category: '',
+      status: '',
     });
   }
 }

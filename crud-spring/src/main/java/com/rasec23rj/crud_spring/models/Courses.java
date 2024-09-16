@@ -1,18 +1,13 @@
 package com.rasec23rj.crud_spring.models;
 
-import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.hibernate.annotations.Where;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedQuery;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -21,8 +16,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE courses set status = 'Inative' where id = ?")
-@SQLRestriction(value =  "status = 'Inative' ")
+@SQLDelete(sql = "UPDATE courses SET status = 'Inativo' WHERE id = ?")
+@SQLRestriction(value =  "status = 'Active' ")
 
 public class Courses {
     @Id
@@ -45,7 +40,7 @@ public class Courses {
     @NotBlank
     @Column(nullable = false, length = 10, name = "status")
     @NotNull(message = "Status cannot be null")
-    @Pattern(regexp = "Active|Inative", message = "Status must be either 'Active' or 'Inative'")
+    @Pattern(regexp = "Active|Inactive", message = "Status must be either 'Active' or 'Inactive'")
     @Size(max = 10, message = "Status must be max 10 characters")
     private String status = "Active";
 }

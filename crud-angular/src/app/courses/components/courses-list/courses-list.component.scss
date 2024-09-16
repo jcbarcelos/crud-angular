@@ -1,33 +1,35 @@
-mat-table {
-  overflow: auto;
-  max-height: 500px;
-}
-
-.action-column{
-  flex: 0 0 75px;
-}
-
-.actions {
-  flex: 0 0 55px;
-}
-.icon_actions{
-  margin-left: 10px;
-}
 ::ng-deep .success-snackbar {
   color: white !important;
   background-color: green !important;
   box-shadow: 0px 3px 5px -1px rgba(0, 128, 0, 0.2),
-              0px 6px 10px 0px rgba(0, 128, 0, 0.14),
-              0px 1px 18px 0px rgba(0, 128, 0, 0.12) !important;
+    0px 6px 10px 0px rgba(0, 128, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 128, 0, 0.12) !important;
 }
 
 ::ng-deep .error-snackbar {
   color: white !important;
   background-color: red !important;
   box-shadow: 0px 3px 5px -1px rgba(255, 0, 0, 0.2),
-              0px 6px 10px 0px rgba(255, 0, 0, 0.14),
-              0px 1px 18px 0px rgba(255, 0, 0, 0.12) !important;
+    0px 6px 10px 0px rgba(255, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(255, 0, 0, 0.12) !important;
 }
-.mat-form-field-appearance-legacy, .mat-form-field-wrapper {
-  margin: 0 20px !important;
+
+mat-table {
+  width: 100%;
+
+
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.mat-cell,
+.cdk-cell,
+.cdk-column-name,
+.mat-column-name,
+.ng-star-inserted {
+  padding: 0px 0 0 10px;
+
 }
