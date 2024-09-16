@@ -2,8 +2,9 @@
   <mat-label>Filter</mat-label>
   <input matInput (keyup)="onApplyFilter($event)" placeholder="Ex. Mia" #input>
 </mat-form-field>
+<div class="mat-elevation-z8">
 <!-- app.component.html -->
-<mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort class="mat-elevation-z8">
+<mat-table [dataSource]="dataSource" (matSortChange)="sortData($event)" matSort >
 
 
   <!-- Name Column -->
@@ -45,3 +46,4 @@
 <mat-row *matNoDataRow>
   <mat-cell colspan="4">No data matching the filter "{{input.value}}"</mat-cell>
 </mat-row>
+</div>
