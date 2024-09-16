@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SnackbarCustomComponent } from '../../shared/components/snackbarcustom/snackbar.custom.component';
@@ -15,15 +15,15 @@ import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarHorizontalPosition as MatSnackBarHorizontalPosition,
+  MatLegacySnackBarVerticalPosition as MatSnackBarVerticalPosition,
+} from '@angular/material/legacy-snack-bar';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 import { MatSort, Sort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 @Component({
   selector: 'app-courses',

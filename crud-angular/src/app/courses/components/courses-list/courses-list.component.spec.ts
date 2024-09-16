@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CoursesService } from '../../services/courses.service';
 import { ICourses } from '../../interfaces/ICourses';
 import { CoursesListComponent } from './courses-list.component';
