@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -13,7 +13,7 @@ export class SnackbarCustomComponent {
     private router: Router,
     private route: ActivatedRoute,
     @Inject(MAT_DIALOG_DATA) public data: {},
-    @Inject(MAT_DIALOG_DATA)  public title: String,
+    @Inject(MAT_DIALOG_DATA) public title: String
   ) {}
 
   onNoClick(): void {

@@ -3,16 +3,15 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 
+import { MatTableDataSource } from '@angular/material/table';
 import { ICourses } from '../../interfaces/ICourses';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 @Component({
   selector: 'app-courses-list',

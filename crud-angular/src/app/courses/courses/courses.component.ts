@@ -1,29 +1,22 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  DoCheck,
-  OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
+import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 import { SnackbarCustomComponent } from '../../shared/components/snackbarcustom/snackbar.custom.component';
 import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  MatLegacySnackBar as MatSnackBar,
-  MatLegacySnackBarHorizontalPosition as MatSnackBarHorizontalPosition,
-  MatLegacySnackBarVerticalPosition as MatSnackBarVerticalPosition,
-} from '@angular/material/legacy-snack-bar';
-import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
-import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
-import { MatLegacyPaginator as MatPaginator, LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
-import { MatSort, Sort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 
 @Component({
   selector: 'app-courses',
@@ -33,12 +26,11 @@ import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/materia
 export class CoursesComponent implements AfterViewInit {
   displayedColumns: string[] = ['id', 'name', 'category', 'status', 'actions'];
   courses$: Observable<ICourses[]> | null = null;
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'top';
+
 
   pageIndex = 0;
   pageSize = 5;
-  pageLength=100
+  pageLength = 100;
   totalElements = 0;
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
 
@@ -67,12 +59,11 @@ export class CoursesComponent implements AfterViewInit {
       .listCourses(pageEvent.pageIndex, pageEvent.pageSize)
       .pipe(
         tap((result) => {
-          this.dataSource =  new MatTableDataSource(result.content);
+          this.dataSource = new MatTableDataSource(result.content);
           this.pageIndex = pageEvent.pageIndex;
           this.pageSize = pageEvent.pageSize;
           this.totalElements = result.totalElements;
           this.paginator.length = this.totalElements;
-
         }),
         catchError((_) => {
           this.onError('Erro ao carregar cursos.');
