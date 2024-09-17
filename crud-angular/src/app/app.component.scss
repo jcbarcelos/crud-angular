@@ -2,19 +2,62 @@
   flex: 1 1 auto;
 }
 
-::ng-deep .success-snackbar {
+
+
+
+// ::ng-deep mat-snack-bar-container .success-snackbar {
+//   background-color: #4caf50 !important;
+//   --mdc-snackbar-container-color: #4caf50 !important;
+//   color: white !important;
+
+//   .mat-icon {
+//     color: white;
+//   }
+// }
+
+
+
+
+// ::ng-deep mat-snack-bar-container .error-snackbar {
+//   background-color: #f44336 !important;
+//   color: white !important;
+//   .mat-icon {
+//     color: white;
+//   }
+// }
+/* Sobrescrevendo o estilo do snackbar */
+
+::ng-deep .mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: transparent !important;
+  --mdc-snackbar-supporting-text-color: transparent !important;
+  --mat-snack-bar-button-color: transparent !important;
+  margin: 8px !important;
+
+  position: static !important;
+  border-radius: 4px;
+}
+
+::ng-deep .mat-mdc-snack-bar-container .mdc-snackbar__label {
   color: white !important;
+}
+
+.mat-mdc-simple-snack-bar .ng-star-inserted {
   background-color: green !important;
-  box-shadow: 0px 3px 5px -1px rgba(0, 128, 0, 0.2),
-              0px 6px 10px 0px rgba(0, 128, 0, 0.14),
-              0px 1px 18px 0px rgba(0, 128, 0, 0.12) !important;
 }
 
-::ng-deep .error-snackbar {
+.success-snackbar {
+  background-color: green !important;
   color: white !important;
-  background-color: red !important;
-  box-shadow: 0px 3px 5px -1px rgba(255, 0, 0, 0.2),
-              0px 6px 10px 0px rgba(255, 0, 0, 0.14),
-              0px 1px 18px 0px rgba(255, 0, 0, 0.12) !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+  --mdc-snackbar-container-shape: 4px !important;
+
 }
 
+.mdc-snackbar.mdc-snackbar--open.ng-trigger.ng-trigger-state.error-snackbar.ng-star-inserted {
+  background-color: red !important;
+  color: white !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+  --mdc-snackbar-container-shape: 4px !important;
+}

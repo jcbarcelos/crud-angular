@@ -29,6 +29,7 @@ export class CourseFormComponent implements OnInit {
     ],
     category: ['', Validators.required],
   });
+  course!: ICourses;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -54,11 +55,11 @@ export class CourseFormComponent implements OnInit {
     },
   ];
   ngOnInit(): void {
-    const course: ICourses = this.route.snapshot.data['course'];
+    this.course = this.route.snapshot.data['course'];
     this.form.patchValue({
-      id: course.id,
-      name: course.name,
-      category: course.category,
+      id: this.course.id,
+      name: this.course.name,
+      category: this.course.category,
     });
   }
 
@@ -84,44 +85,62 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'Salvo com sucesso, deseja continuar cadastrando?',
-    });
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.service.saveCourses(this.form.value).subscribe(
-          () => {
-            this.onSuccess();
-          },
-          (error) => {
-            console.log(error['error']['errors'][0]['codes']);
+    console.log(typeof this.course.id);
 
-            return this.showError(error);
-          }
-        );
-      } else {
-        this.onCancel();
-      }
-    });
+    if (this.course.id == null || this.course.id == undefined) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: 'Salvo com sucesso, deseja continuar cadastrando?',
+      });
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.service.saveCourses(this.form.value).subscribe(
+            () => {
+              this.showSuccess();
+            },
+            (error) => {
+              console.log(error['error']['errors'][0]['codes']);
+
+              return this.showError(error);
+            }
+          );
+        } else {
+          this.service.saveCourses(this.form.value).subscribe(
+            () => {
+              this.showSuccess();
+            },
+            (error) => {
+              console.log(error['error']['errors'][0]['codes']);
+
+              return this.showError(error);
+            }
+          );
+          this.onCancel();
+        }
+      });
+    } else {
+      this.service.saveCourses(this.form.value).subscribe(
+        () => {
+          this.showSuccess();
+          this.onCancel();
+        },
+        (error) => {
+          console.log(error['error']['errors'][0]['codes']);
+
+          return this.showError(error['error']['errors'][0]['codes']);
+        }
+      );
+    }
   }
 
   onCancel() {
     this.location.back();
   }
-  private onSuccess() {
-    this.showSuccess();
+
+  showSuccess() {
+    this.notificationAlertService.success('Operação realizada com sucesso!');
     this.form.reset();
   }
-  private onError() {
-    this.showError('');
-  }
-  showSuccess() {
-    this.notificationAlertService.openSnackBar(
-      'Operação realizada com sucesso!',
-      true
-    );
-  }
   showError(message: string) {
-    this.notificationAlertService.openSnackBar(message, false);
+    this.notificationAlertService.error(message);
   }
 }

@@ -117,9 +117,9 @@ export class CoursesComponent implements AfterViewInit {
   }
 
   onSuccess(message: string) {
-    this.notificationAlertService.openSnackBar(message, true);
+    this.notificationAlertService.success(message);
   }
   onError(message: string) {
-    this.notificationAlertService.openSnackBar(message, false);
+    this.notificationAlertService.error(message);
   }
 }

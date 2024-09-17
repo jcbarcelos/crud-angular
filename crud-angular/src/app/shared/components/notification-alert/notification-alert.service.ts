@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 
-import { NotificationAlertComponent } from './notification-alert.component';
 import {
   MatSnackBar,
+  MatSnackBarConfig,
   MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+  MatSnackBarVerticalPosition
 } from '@angular/material/snack-bar';
+import { NotificationAlertComponent } from './notification-alert.component';
 
 @Injectable({
   providedIn: 'root',
@@ -16,16 +17,36 @@ export class NotificationAlertService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  openSnackBar(message: string, isSuccess: boolean) {
-    this.snackBar.openFromComponent(NotificationAlertComponent, {
+
+
+  success(message: string, duration: number = 3000): void {
+    this.showNotification(message, 'check_circle', 'success-snackbar', duration);
+  }
+
+
+  error(message: string, duration: number = 3000): void {
+    this.showNotification(message, 'error', 'error-snackbar', duration);
+  }
+
+
+  private showNotification(
+    message: string,
+    icon: string,
+    panelClass: string,
+    duration: number
+  ): void {
+    const config: MatSnackBarConfig = {
       data: {
         message: message,
-        icon: isSuccess ? 'check_circle' : 'error',
+        icon: icon,
       },
-      duration: 3000,
-      panelClass: isSuccess ? 'success-snackbar' : 'error-snackbar',
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
+     // duration: duration,
+      panelClass: [panelClass],
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    };
+
+    this.snackBar.openFromComponent(NotificationAlertComponent, config);
   }
+
 }

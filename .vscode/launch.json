@@ -1,6 +1,13 @@
 {
     "configurations": [
         {
+            "type": "java",
+            "name": "CrudSpringApplication",
+            "request": "launch",
+            "mainClass": "com.rasec23rj.crud_spring.CrudSpringApplication",
+            "projectName": "crud-spring"
+        },
+        {
             "type": "node-terminal",
             "name": "Run Script: start",
             "request": "launch",
