@@ -36,6 +36,6 @@ public class CoursesService {
     }
 
     public void deleteById(@Positive Long id) {
-         coursesRepository.deleteById(id);
+        coursesRepository.deleteById(id);
     }
 }
