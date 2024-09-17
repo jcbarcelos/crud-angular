@@ -61,6 +61,7 @@ export class CourseFormComponent implements OnInit {
       name: this.course.name,
       category: this.course.category,
     });
+    console.log(this.course.id.toString() == '');
   }
 
   getErrorMessage(fieldName: string) {
@@ -85,9 +86,7 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(typeof this.course.id);
-
-    if (this.course.id == null || this.course.id == undefined) {
+    if (this.course.id.toString() == '') {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: 'Salvo com sucesso, deseja continuar cadastrando?',
       });
@@ -98,9 +97,9 @@ export class CourseFormComponent implements OnInit {
               this.showSuccess();
             },
             (error) => {
-              console.log(error['error']['errors'][0]['codes']);
+              console.log("error ao salvar");
 
-              return this.showError(error);
+              return this.showError("error ao salvar");
             }
           );
         } else {

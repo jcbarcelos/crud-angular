@@ -40,7 +40,7 @@ export class NotificationAlertService {
         message: message,
         icon: icon,
       },
-     // duration: duration,
+      duration: duration,
       panelClass: [panelClass],
       horizontalPosition: 'right',
       verticalPosition: 'top',
