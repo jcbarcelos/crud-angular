@@ -1,6 +1,5 @@
 package com.rasec23rj.crud_spring.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +46,7 @@ public class CoursesController {
     public ResponseEntity<Courses> getById(@PathVariable @NotNull @Positive Long id) {
 
         return coursesService.findById(id)
-                .map(record -> ResponseEntity.ok().body(record))
+                .map((Courses record) -> ResponseEntity.ok().body(record))
                 .orElse(ResponseEntity.notFound().build());
     }
 
@@ -64,7 +63,7 @@ public class CoursesController {
             @RequestBody @Valid Courses courses) {
 
         return coursesService.findById(id)
-                .map(record -> {
+                .map((Courses record) -> {
                     record.setName(courses.getName());
                     record.setCategory(courses.getCategory());
                     Courses updatedCourses = coursesService.save(record);
@@ -78,7 +77,7 @@ public class CoursesController {
     public ResponseEntity<Void> deleteCourses(@PathVariable @NotNull @Positive Long id) {
 
         return coursesService.findById(id)
-                .map(result -> {
+                .map((Courses record) -> {
                     coursesService.deleteById(id);
                     return ResponseEntity.noContent().<Void>build();
                 })
