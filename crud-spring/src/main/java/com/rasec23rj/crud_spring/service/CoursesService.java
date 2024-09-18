@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.rasec23rj.crud_spring.dto.CourseDTO;
 import com.rasec23rj.crud_spring.dto.mapper.CourseMapper;
 import com.rasec23rj.crud_spring.exception.RecordNotFoundException;
+import com.rasec23rj.crud_spring.models.Courses;
 import com.rasec23rj.crud_spring.repository.CoursesRepository;
 
 import jakarta.validation.Valid;
@@ -30,7 +31,11 @@ public class CoursesService {
     }
 
     public List<CourseDTO> getCourses(Pageable pageable) {
-        return coursesRepository.findAll(pageable).stream().map(courseMapper::toDto).collect(Collectors.toList());
+        
+        return coursesRepository
+                .findAll().stream()
+                .map(courseMapper::toDto)
+                .collect(Collectors.toList());
 
     }
 
