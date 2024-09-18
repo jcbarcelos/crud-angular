@@ -3,8 +3,14 @@ package com.rasec23rj.crud_spring.models;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
+import com.rasec23rj.crud_spring.enums.Category;
+import com.rasec23rj.crud_spring.enums.converters.CategoryConverter;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,12 +36,13 @@ public class Courses {
     @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     private String name;
 
-    @NotBlank
-    @Column(nullable = false, length = 200)
-    @NotNull(message = "Category cannot be null")
-    @Pattern(regexp = "Back-End|Front-End", message = "Category must be either 'Back-End' or 'Front-End'")
-    @Size(min = 5, max = 100, message = "Category must be between 5 and 100 characters")
-    private String category;
+    //@NotBlank
+    @Column(nullable = false, length = 10)
+    //@NotNull(message = "Category cannot be null")
+    //@Pattern(regexp = "Back-End|Front-End", message = "Category must be either 'Back-End' or 'Front-End'")
+    //@Size(min = 5, max = 10, message = "Category must be between 5 and 100 characters")
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     @NotBlank
     @Column(nullable = false, length = 10, name = "status")

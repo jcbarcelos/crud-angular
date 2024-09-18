@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.rasec23rj.crud_spring.dto.CourseDTO;
 import com.rasec23rj.crud_spring.dto.mapper.CourseMapper;
 import com.rasec23rj.crud_spring.exception.RecordNotFoundException;
-import com.rasec23rj.crud_spring.models.Courses;
 import com.rasec23rj.crud_spring.repository.CoursesRepository;
 
 import jakarta.validation.Valid;
