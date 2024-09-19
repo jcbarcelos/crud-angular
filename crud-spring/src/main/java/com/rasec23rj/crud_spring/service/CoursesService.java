@@ -38,7 +38,7 @@ public class CoursesService {
 
     }
 
-    public CourseDTO findById(@PathVariable @NotNull @Positive Long id) {
+    public CourseDTO findById(@NotNull @Positive Long id) {
         return coursesRepository.findById(id)
                 .map(courseMapper::toDto)
                 .orElseThrow(() -> new RecordNotFoundException(id));
@@ -59,7 +59,7 @@ public class CoursesService {
                 .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public void delete(@PathVariable @NotNull @Positive @Positive Long id) {
+    public void delete(@NotNull @Positive @Positive Long id) {
         coursesRepository.delete(coursesRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }
