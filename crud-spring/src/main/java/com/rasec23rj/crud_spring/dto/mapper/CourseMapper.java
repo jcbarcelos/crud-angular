@@ -12,7 +12,7 @@ public class CourseMapper {
         if (courses == null) {
             return null;
         }
-        return new CourseDTO(courses.getId(), courses.getName(), courses.getCategory());
+        return new CourseDTO(courses.getId(), courses.getName(), courses.getCategory(), courses.getStatus());
     }
 
     public Courses toEntity(CourseDTO courseDTO) {
@@ -25,7 +25,6 @@ public class CourseMapper {
         }
         courses.setName(courseDTO.name());
         courses.setCategory(courseDTO.category());
-        courses.setStatus("Active");
         return courses;
     }
 
