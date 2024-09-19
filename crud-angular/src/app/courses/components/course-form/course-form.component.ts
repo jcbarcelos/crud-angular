@@ -9,6 +9,7 @@ import { NotificationAlertService } from 'src/app/shared/components/notification
 import { ICategory } from '../../interfaces/iCategory';
 import { ICourses } from '../../interfaces/ICourses';
 import { CoursesService } from '../../services/courses.service';
+import { ECategory } from '../../enums/ECategory.enum';
 
 @Component({
   selector: 'app-course-form',
@@ -16,6 +17,8 @@ import { CoursesService } from '../../services/courses.service';
   styleUrls: ['./course-form.component.scss'],
 })
 export class CourseFormComponent implements OnInit {
+  course!: ICourses;
+  category: string = 'Front-End';
   form = this.formBuilder.group({
     id: [''],
     name: [
@@ -29,8 +32,6 @@ export class CourseFormComponent implements OnInit {
     ],
     category: ['', Validators.required],
   });
-  course!: ICourses;
-
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
@@ -42,26 +43,24 @@ export class CourseFormComponent implements OnInit {
 
   categories: ICategory[] = [
     {
-      _id: '',
-      name: '',
+      _id: 0,
+      name: 'Front-end',
     },
     {
-      _id: '1',
-      name: 'Front-End',
-    },
-    {
-      _id: '2',
-      name: 'Back-End',
+      _id: 1,
+      name: 'Back-end',
     },
   ];
+
   ngOnInit(): void {
     this.course = this.route.snapshot.data['course'];
     this.form.patchValue({
       id: this.course.id,
       name: this.course.name,
-      category: this.course.category,
+      category: this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end',
     });
-    console.log(this.course.id.toString() == '');
+    this.category =
+      this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
   }
 
   getErrorMessage(fieldName: string) {
@@ -96,10 +95,10 @@ export class CourseFormComponent implements OnInit {
             () => {
               this.showSuccess();
             },
-            (error) => {
-              console.log("error ao salvar");
+            (_) => {
+              console.log('error ao salvar');
 
-              return this.showError("error ao salvar");
+              return this.showError('error ao salvar');
             }
           );
         } else {
