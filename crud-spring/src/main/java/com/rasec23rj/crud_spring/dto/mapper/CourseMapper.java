@@ -3,6 +3,7 @@ package com.rasec23rj.crud_spring.dto.mapper;
 import org.springframework.stereotype.Component;
 
 import com.rasec23rj.crud_spring.dto.CourseDTO;
+import com.rasec23rj.crud_spring.enums.Category;
 import com.rasec23rj.crud_spring.models.Courses;
 
 @Component
@@ -24,8 +25,20 @@ public class CourseMapper {
             courses.setId(courseDTO.id());
         }
         courses.setName(courseDTO.name());
-        courses.setCategory(courseDTO.category());
+        courses.setCategory(convertCategoryValue(courseDTO.category().getValue()));
         return courses;
+    }
+
+    public Category convertCategoryValue(String category) {
+        if (category == null)
+            return null;
+
+        return switch (category) {
+            case "Front-end" -> Category.FRONTEND;
+            case "Back-end" -> Category.BACKEND;
+            default -> throw new IllegalArgumentException("Invalid category value: " + category);
+
+        };
     }
 
 }
