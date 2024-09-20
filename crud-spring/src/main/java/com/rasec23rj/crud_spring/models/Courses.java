@@ -25,9 +25,8 @@ import lombok.Data;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE courses SET status = 'Inativo' WHERE id = ?")
+@SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
 @SQLRestriction(value = "status = 'Active' ")
-
 public class Courses {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,5 +46,6 @@ public class Courses {
     private Status status = Status.ACTIVE;
 
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
+    
     private List<Lesson> lessons = new ArrayList<>();
 }
