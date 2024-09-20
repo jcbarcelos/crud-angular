@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rasec23rj.crud_spring.enums.Category;
 import com.rasec23rj.crud_spring.enums.Status;
-import com.rasec23rj.crud_spring.models.Lesson;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +15,7 @@ public record CourseDTO(
         @NotBlank @NotNull @Size(min = 5, max = 100) String name,
         @NotNull Category category,
         Status status,
-        @JsonProperty("lessons") List<Lesson> lessons
+        @JsonProperty("lessons") List<LessonDTO> lessons
 
         ) {
 

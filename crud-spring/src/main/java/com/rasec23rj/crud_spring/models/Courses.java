@@ -1,9 +1,9 @@
 package com.rasec23rj.crud_spring.models;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.rasec23rj.crud_spring.enums.Category;
@@ -25,7 +25,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
+//@SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
 @SQLRestriction(value = "status = 'Active' ")
 public class Courses {
     @Id
