@@ -16,7 +16,15 @@ mat-form-field {
   width: 100%;
 }
 
-
+mat-card-header{
+  background: #7b1fa2;
+  color: white;
+  margin: 0px 0px 10px 0;
+  align-items: center;
+}
+mat-card-title-group {
+  margin: 0px 0px 10px 0;
+}
 @media (max-width: 559px) {
   .container div{
     max-width: 375px;
