@@ -46,12 +46,12 @@ export class CourseFormComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    const course = this.route.snapshot.data['course'];
+    this.course = this.route.snapshot.data['course'];
 
     this.form = this.formBuilder.group({
-      id: [course.id],
+      id: [this.course.id],
       name: [
-        course.name,
+        this.course.name,
         [
           Validators.required,
           Validators.maxLength(200),
@@ -59,12 +59,14 @@ export class CourseFormComponent implements OnInit {
           Validators.minLength(2),
         ],
       ],
-      category: [course.category, Validators.required],
-      lessons: this.formBuilder.array(this.retrieveLesson(course)),
+      category: [this.course.category, Validators.required],
+      lessons: this.formBuilder.array(
+        this.retrieveLesson(this.course),
+        Validators.required
+      ),
     });
-    this.category = course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
-
-    console.log(this.form.value);
+    this.category =
+      this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
   }
 
   getErrorMessage(fieldName: string) {
@@ -111,55 +113,83 @@ export class CourseFormComponent implements OnInit {
   ) {
     return this.formBuilder.group({
       id: [lesson.id],
-      name: [lesson.name, [Validators.required, Validators.minLength(2)]],
-      youtubeUrl: [lesson.youtubeUrl, [Validators.required]],
+      name: [
+        lesson.name,
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(100),
+        ],
+      ],
+      youtubeUrl: [
+        lesson.youtubeUrl,
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(100),
+        ],
+      ],
     });
   }
-  onAddLesson() {}
+  onAddLesson() {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.push(this.createLesson());
+  }
+  onRemoveLesson(index: number) {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    lessons.removeAt(index);
+  }
   onSubmit() {
-    if (this.course.id.toString() == '') {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: 'Salvo com sucesso, deseja continuar cadastrando?',
-      });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.service.saveCourses(this.form.value).subscribe(
-            () => {
-              this.showSuccess();
-            },
-            (_) => {
-              console.log('error ao salvar');
+    if (this.form.valid) {
+      if (this.course.id === '' || this.course.id === undefined) {
+        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+          data: 'Salvo com sucesso, deseja continuar cadastrando?',
+        });
+        dialogRef.afterClosed().subscribe((result: boolean) => {
+          if (result) {
+            this.service.saveCourses(this.form.value).subscribe(
+              () => {
+                this.showSuccess();
+              },
+              (_) => {
+                console.log('error ao salvar');
 
-              return this.showError('error ao salvar');
-            }
-          );
-        } else {
-          this.service.saveCourses(this.form.value).subscribe(
-            () => {
-              this.showSuccess();
-            },
-            (error) => {
-              console.log(error['error']['errors'][0]['codes']);
+                return this.showError('error ao salvar');
+              }
+            );
+          } else {
+            this.service.saveCourses(this.form.value).subscribe(
+              () => {
+                this.showSuccess();
+              },
+              (error) => {
+                console.log(error['error']['errors'][0]['codes']);
 
-              return this.showError(error);
-            }
-          );
-          this.onCancel();
-        }
-      });
+                return this.showError(error);
+              }
+            );
+            this.onCancel();
+          }
+        });
+      } else {
+        this.service.saveCourses(this.form.value).subscribe(
+          () => {
+            this.showSuccess();
+            this.onCancel();
+          },
+          (error) => {
+            console.log(error['error']['errors'][0]['codes']);
+
+            return this.showError(error['error']['errors'][0]['codes']);
+          }
+        );
+      }
     } else {
-      this.service.saveCourses(this.form.value).subscribe(
-        () => {
-          this.showSuccess();
-          this.onCancel();
-        },
-        (error) => {
-          console.log(error['error']['errors'][0]['codes']);
-
-          return this.showError(error['error']['errors'][0]['codes']);
-        }
-      );
     }
+  }
+  isFormArrayRequiredLesson(): boolean {
+    const lessons = this.form.get('lessons') as UntypedFormArray;
+    return lessons.invalid && lessons.touched == false;
   }
 
   onCancel() {

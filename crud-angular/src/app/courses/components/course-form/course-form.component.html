@@ -1,11 +1,11 @@
 <mat-card>
-  <mat-card-header >
+  <mat-card-header>
     <mat-card-title-group color="primary">
       <mat-card-title>Detalhes do Curso</mat-card-title>
     </mat-card-title-group>
   </mat-card-header>
-  <mat-card-content>
-    <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-card-content>
       <mat-form-field>
         <input
           matInput
@@ -34,9 +34,9 @@
       </mat-form-field>
 
       <mat-toolbar class="toolbar-lesson">
-        <span>Adicionar uma nova aula</span>
-        <button mat-icon-button (click)="onAddLesson()" color="accent">
-          <mat-icon>add</mat-icon>
+        <span>Aulas</span>
+        <button mat-mini-fab color="accent" (click)="onAddLesson()">
+          <mat-icon aria-label="Adicione uma novaa aula">add</mat-icon>
         </button>
       </mat-toolbar>
       <p></p>
@@ -48,12 +48,18 @@
         *ngFor="let lesson of getLessonsFromArray(); let i = index"
       >
         <div [formGroupName]="i" class="row">
-          <div class="col-8">
+          <div class="col-7">
             <mat-form-field>
               <mat-label>Nome</mat-label>
               <input matInput formControlName="name" required #name />
+              <mat-error
+                *ngIf="getLessonsFromArray()[i].get('name')?.invalid"
+                class="form-arry-error"
+                >Adicione uma Aula
+              </mat-error>
             </mat-form-field>
           </div>
+
           <div class="col-4">
             <mat-form-field>
               <mat-label>URL</mat-label>
@@ -65,59 +71,40 @@
                 required
                 #youtubeUrl
               />
-              <mat-icon matSuffix>mode_edit</mat-icon>
+              <mat-icon matSuffix>link</mat-icon>
+              <mat-error
+              *ngIf="getLessonsFromArray()[i].get('youtubeUrl')?.invalid"
+              class="form-arry-error"
+              >Adicione uma URL
+            </mat-error>
             </mat-form-field>
+          </div>
+          <div class="col-1">
+            <button mat-mini-fab (click)="onRemoveLesson(i)" color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
           </div>
         </div>
       </div>
-      <!--
-      <table
-        formArrayName="lessons"
-        *ngFor="let lesson of getLessonsFromArray(); let i = index"
-      >
-        <tr [formGroupName]="i">
-          <td style="width: 70%">
-            <mat-form-field class="mat-mdc-form-field-flex">
-              <mat-label>Nome</mat-label>
-              <input matInput formControlName="name" required #name />
-            </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <table>
+        <tr>
+          <td>
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="onSubmit()"
+              style="margin-right: 10px"
+            >
+              Salvar
+            </button>
           </td>
-          <td style="width: 60%">
-            <mat-form-field class="full-width" style="margin-left: 20px">
-              <mat-label>URL</mat-label>
-              <span matPrefix>https://youtu.be/&nbsp;</span>
-              <input
-                type="text"
-                matInput
-                formControlName="youtubeUrl"
-                required
-                #youtubeUrl
-              />
-              <mat-icon matSuffix>mode_edit</mat-icon>
-            </mat-form-field>
+          <td>
+            <button mat-raised-button (click)="onCancel()">Cancelar</button>
           </td>
         </tr>
-      </table> -->
-    </form>
-  </mat-card-content>
-  <mat-card-actions>
-    <table>
-      <tr>
-        <td>
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="onSubmit()"
-            style="margin-right: 10px"
-            disabled="{{ form.invalid ? true : false }}"
-          >
-            Salvar
-          </button>
-        </td>
-        <td>
-          <button mat-raised-button (click)="onCancel()">Cancelar</button>
-        </td>
-      </tr>
-    </table>
-  </mat-card-actions>
+      </table>
+    </mat-card-actions>
+  </form>
 </mat-card>

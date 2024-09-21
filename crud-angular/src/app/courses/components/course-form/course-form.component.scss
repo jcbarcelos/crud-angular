@@ -6,6 +6,7 @@ mat-card {
 
 .toolbar-lesson {
   background-color: var(--mdc-filled-text-field-container-color);
+  justify-content: space-between;
 }
 
 mat-card-actions {
@@ -15,7 +16,10 @@ mat-card-actions {
 mat-form-field {
   width: 100%;
 }
+.form-arry-error{
+ justify-content: left;
 
+}
 mat-card-header {
   background: #7b1fa2;
   color: white;
