@@ -1,8 +1,21 @@
 mat-card {
   max-width: 80%;
   margin: 2em auto;
-  text-align: center;
 
+}
+
+.toolbar-lesson {
+
+  background-color: var(--mdc-filled-text-field-container-color);
+}
+.mat-mdc-form-field-flex {
+  display: inline-flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  width: 100%;
+}
+table {
+  margin: 20px 0 0px 0px;
 
 }
 
@@ -35,16 +48,20 @@ mat-toolbar button {
 }
 
 
-mat-error, mat-hint {
+mat-error,
+mat-hint {
   font-size: medium;
 }
+
 mat-card-actions {
- justify-content: center;
+  justify-content: center;
   align-items: end;
 }
-.button-actions{
+
+.button-actions {
   margin-right: 20px;
 }
-mat-hint{
+
+mat-hint {
   color: white;
 }

@@ -23,12 +23,8 @@
       <p></p>
       <mat-form-field>
         <mat-label>Category</mat-label>
-        <mat-select  [(value)]="category">
-          <mat-option
-            *ngFor="let cate of categories"
-            [value]="cate.name"
-
-          >
+        <mat-select [(value)]="category">
+          <mat-option *ngFor="let cate of categories" [value]="cate.name">
             {{ cate.name }}
           </mat-option>
         </mat-select>
@@ -36,26 +32,62 @@
           getErrorMessage("category")
         }}</mat-error>
       </mat-form-field>
+
+      <mat-toolbar class="toolbar-lesson">
+        <span>Adicionar uma nova aula</span>
+        <button mat-icon-button (click)="onAddLesson()" color="accent">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-toolbar>
+
+      <table
+        style="width: 100%"
+        formArrayName="lessons"
+        *ngFor="let lesson of getLessonsFromArray(); let i = index"
+      >
+        <tr [formGroupName]="i">
+          <td style="width: 70%;" >
+            <mat-form-field class="mat-mdc-form-field-flex">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="name" required #name />
+            </mat-form-field>
+          </td>
+          <td style="width: 60%;">
+            <mat-form-field class="full-width"  style="margin-left: 20px;">
+              <mat-label>URL</mat-label>
+              <span matPrefix>https://youtu.be/&nbsp;</span>
+              <input
+              type="text"
+                matInput
+                formControlName="youtubeUrl"
+                required
+                #youtubeUrl
+
+              />
+              <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+          </td>
+        </tr>
+      </table>
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <mat-grid-list cols="2" rowHeight="2:1">
-      <mat-grid-tile>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="onSubmit()"
-          class="button-actions"
-          disabled="{{ form.invalid ? true : false }}"
-        >
-          Salvar
-        </button>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <button mat-raised-button (click)="onCancel()">
-          Cancelar
-        </button></mat-grid-tile
-      >
-    </mat-grid-list>
+    <table style="text-align: center">
+      <tr>
+        <td>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSubmit()"
+            disabled="{{ form.invalid ? true : false }}"
+          >
+            Salvar
+          </button>
+        </td>
+        <td>
+          <button mat-raised-button (click)="onCancel()">Cancelar</button>
+        </td>
+      </tr>
+    </table>
   </mat-card-actions>
 </mat-card>

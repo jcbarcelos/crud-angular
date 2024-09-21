@@ -1,6 +1,11 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  NonNullableFormBuilder,
+  UntypedFormArray,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ActivatedRoute } from '@angular/router';
@@ -8,8 +13,8 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 import { ICategory } from '../../interfaces/iCategory';
 import { ICourses } from '../../interfaces/ICourses';
+import { ILesson } from '../../interfaces/ILesson';
 import { CoursesService } from '../../services/courses.service';
-import { ECategory } from '../../enums/ECategory.enum';
 
 @Component({
   selector: 'app-course-form',
@@ -19,19 +24,7 @@ import { ECategory } from '../../enums/ECategory.enum';
 export class CourseFormComponent implements OnInit {
   course!: ICourses;
   category: string = 'Front-End';
-  form = this.formBuilder.group({
-    id: [''],
-    name: [
-      '',
-      [
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.required,
-        Validators.minLength(2),
-      ],
-    ],
-    category: ['', Validators.required],
-  });
+  form!: FormGroup;
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
@@ -53,14 +46,25 @@ export class CourseFormComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.course = this.route.snapshot.data['course'];
-    this.form.patchValue({
-      id: this.course.id,
-      name: this.course.name,
-      category: this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end',
+    const course = this.route.snapshot.data['course'];
+
+    this.form = this.formBuilder.group({
+      id: [course.id],
+      name: [
+        course.name,
+        [
+          Validators.required,
+          Validators.maxLength(200),
+          Validators.required,
+          Validators.minLength(2),
+        ],
+      ],
+      category: [course.category, Validators.required],
+      lessons: this.formBuilder.array(this.retrieveLesson(course)),
     });
-    this.category =
-      this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
+    this.category = course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
+
+    console.log(this.form.value);
   }
 
   getErrorMessage(fieldName: string) {
@@ -83,7 +87,35 @@ export class CourseFormComponent implements OnInit {
     }
     return field;
   }
+  private retrieveLesson(course: ICourses) {
+    const lessons = [];
+    if (course && course.lessons && course.lessons.length > 0) {
+      course.lessons.forEach((lesson) =>
+        lessons.push(this.createLesson(lesson))
+      );
+    } else {
+      lessons.push(this.createLesson());
+    }
 
+    return lessons;
+  }
+  getLessonsFromArray() {
+    return (<UntypedFormArray>this.form.get('lessons')).controls;
+  }
+  private createLesson(
+    lesson: ILesson = {
+      id: 0,
+      name: '',
+      youtubeUrl: '',
+    }
+  ) {
+    return this.formBuilder.group({
+      id: [lesson.id],
+      name: [lesson.name, [Validators.required, Validators.minLength(2)]],
+      youtubeUrl: [lesson.youtubeUrl, [Validators.required]],
+    });
+  }
+  onAddLesson() {}
   onSubmit() {
     if (this.course.id.toString() == '') {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
@@ -133,7 +165,6 @@ export class CourseFormComponent implements OnInit {
   onCancel() {
     this.location.back();
   }
-
   showSuccess() {
     this.notificationAlertService.success('Operação realizada com sucesso!');
     this.form.reset();
