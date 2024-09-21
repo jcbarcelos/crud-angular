@@ -1,16 +1,16 @@
 <mat-card>
-  <mat-toolbar color="primary">
-    <span>Detalhes do Curso</span>
-  </mat-toolbar>
-  <p></p>
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title>Detalhes do Curso</mat-card-title>
+    </mat-card-title-group>
+  </mat-card-header>
   <mat-card-content>
-    <form [formGroup]="form" class="min-width">
+    <form [formGroup]="form">
       <mat-form-field>
         <input
           matInput
           placeholder="Nome"
           formControlName="name"
-          A
           required
           #name
         />
@@ -39,46 +39,76 @@
           <mat-icon>add</mat-icon>
         </button>
       </mat-toolbar>
+      <p></p>
 
+      <div
+        class="container flex-wrap"
+        formArrayName="lessons"
+        style="padding: 0"
+        *ngFor="let lesson of getLessonsFromArray(); let i = index"
+      >
+        <div [formGroupName]="i" class="row">
+          <div class="col-8">
+            <mat-form-field>
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="name" required #name />
+            </mat-form-field>
+          </div>
+          <div class="col-4">
+            <mat-form-field>
+              <mat-label>URL</mat-label>
+              <span matPrefix>https://youtu.be/&nbsp;</span>
+              <input
+                type="text"
+                matInput
+                formControlName="youtubeUrl"
+                required
+                #youtubeUrl
+              />
+              <mat-icon matSuffix>mode_edit</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <!--
       <table
-        style="width: 100%"
         formArrayName="lessons"
         *ngFor="let lesson of getLessonsFromArray(); let i = index"
       >
         <tr [formGroupName]="i">
-          <td style="width: 70%;" >
+          <td style="width: 70%">
             <mat-form-field class="mat-mdc-form-field-flex">
               <mat-label>Nome</mat-label>
               <input matInput formControlName="name" required #name />
             </mat-form-field>
           </td>
-          <td style="width: 60%;">
-            <mat-form-field class="full-width"  style="margin-left: 20px;">
+          <td style="width: 60%">
+            <mat-form-field class="full-width" style="margin-left: 20px">
               <mat-label>URL</mat-label>
               <span matPrefix>https://youtu.be/&nbsp;</span>
               <input
-              type="text"
+                type="text"
                 matInput
                 formControlName="youtubeUrl"
                 required
                 #youtubeUrl
-
               />
               <mat-icon matSuffix>mode_edit</mat-icon>
             </mat-form-field>
           </td>
         </tr>
-      </table>
+      </table> -->
     </form>
   </mat-card-content>
   <mat-card-actions>
-    <table style="text-align: center">
+    <table>
       <tr>
         <td>
           <button
             mat-raised-button
             color="primary"
             (click)="onSubmit()"
+            style="margin-right: 10px"
             disabled="{{ form.invalid ? true : false }}"
           >
             Salvar

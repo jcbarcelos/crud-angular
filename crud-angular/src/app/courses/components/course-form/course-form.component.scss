@@ -1,67 +1,101 @@
-mat-card {
-  max-width: 80%;
-  margin: 2em auto;
+// mat-card {
+//   max-width: 80%;
+//   margin: 2em auto;
 
-}
+// }
 
 .toolbar-lesson {
-
   background-color: var(--mdc-filled-text-field-container-color);
-}
-.mat-mdc-form-field-flex {
-  display: inline-flex;
-  align-items: baseline;
-  box-sizing: border-box;
-  width: 100%;
-}
-table {
-  margin: 20px 0 0px 0px;
-
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-
-}
-
-form,
-full-with {
-  width: 100%;
-
-}
-
-.min-width {
-  width: 100%;
-  min-width: 150px;
-}
-
-mat-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-}
-
-mat-toolbar button {
-  align-content: flex-end;
-}
-
-
-mat-error,
-mat-hint {
-  font-size: medium;
 }
 
 mat-card-actions {
   justify-content: center;
-  align-items: end;
 }
 
-.button-actions {
-  margin-right: 20px;
+mat-form-field {
+  width: 100%;
 }
 
-mat-hint {
+
+@media (max-width: 559px) {
+  .container div{
+    max-width: 375px;
+    flex-wrap: wrap !important;
+    display: flex !important;
+    width: 102%;
+    justify-content: space-between;
+    padding: 0 0 0 7px;
+  }
+}
+
+@media (min-width: 1200px) {
+
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+  //  max-width: 1200px !important;
+    padding: 0 !important;
+    display: contents;
+
+  }
+}
+
+// .mat-mdc-form-field-flex {
+//   display: inline-flex;
+//   align-items: baseline;
+//   box-sizing: border-box;
+//   width: 100%;
+// }
+// table {
+//   margin: 20px 0 0px 0px;
+
+// }
+
+// form {
+//   display: flex;
+//   flex-direction: column;
+
+// }
+
+// form,
+// full-with {
+//   width: 100%;
+
+// }
+
+// .min-width {
+//   width: 100%;
+//   min-width: 150px;
+// }
+
+// mat-toolbar {
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+
+// }
+
+// mat-toolbar button {
+//   align-content: flex-end;
+// }
+
+
+// mat-error,
+// mat-hint {
+//   font-size: medium;
+// }
+
+// mat-card-actions {
+//   justify-content: center;
+//   align-items: end;
+// }
+
+// .button-actions {
+//   margin-right: 20px;
+// }
+
+mat-icon {
   color: white;
 }
