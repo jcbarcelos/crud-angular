@@ -1,8 +1,8 @@
-// mat-card {
-//   max-width: 80%;
-//   margin: 2em auto;
+mat-card {
+  max-width: 100%;
+  margin: 2em auto;
 
-// }
+}
 
 .toolbar-lesson {
   background-color: var(--mdc-filled-text-field-container-color);
@@ -16,23 +16,39 @@ mat-form-field {
   width: 100%;
 }
 
-mat-card-header{
+mat-card-header {
   background: #7b1fa2;
   color: white;
   margin: 0px 0px 10px 0;
   align-items: center;
 }
+
 mat-card-title-group {
   margin: 0px 0px 10px 0;
 }
+
 @media (max-width: 559px) {
-  .container div{
+  .container div {
     max-width: 375px;
     flex-wrap: wrap !important;
-    display: flex !important;
-    width: 102%;
+    display: contents !important;
     justify-content: space-between;
     padding: 0 0 0 7px;
+
+  }
+  mat-form-field {
+    width: 85%;
+  }
+  mat-card-header {
+    width: 85%;
+    background: #7b1fa2;
+    color: white;
+    margin: 0px 0px 10px 0;
+    align-items: center;
+  }
+  mat-card-title-group {
+    width: 85%;
+    margin: 0px 0px 10px 0;
   }
 }
 
@@ -43,10 +59,25 @@ mat-card-title-group {
   .container-md,
   .container-sm,
   .container {
-  //  max-width: 1200px !important;
     padding: 0 !important;
     display: contents;
+    width: 102%;
 
+  }
+}
+
+@media (min-width: 600px) {
+
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 960px;
+    flex-wrap: wrap !important;
+    width: 102%;
+    justify-content: space-between;
+    padding: 0 0 0 7px;
+    display: contents !important;
   }
 }
 
@@ -104,6 +135,7 @@ mat-card-title-group {
 //   margin-right: 20px;
 // }
 
-mat-icon, mat-hint {
+mat-icon,
+mat-hint {
   color: white;
 }
