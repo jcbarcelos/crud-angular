@@ -5,6 +5,7 @@ import { SnackbarCustomComponent } from './components/snackbarcustom/snackbar.cu
 import { CategoryPipe } from './pipes/category.pipe';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertComponent } from './components/notification-alert/notification-alert.component';
+import { BaseFormComponent } from './components/base-form/base-form.component';
 
 
 
@@ -14,7 +15,8 @@ import { NotificationAlertComponent } from './components/notification-alert/noti
     SnackbarCustomComponent,
     CategoryPipe,
     ConfirmationDialogComponent,
-    NotificationAlertComponent
+    NotificationAlertComponent,
+    BaseFormComponent
   ],
   imports: [
     CommonModule,

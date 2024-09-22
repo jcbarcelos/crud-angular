@@ -28,7 +28,7 @@ public class Lesson {
     private String name;
 
     @NotBlank
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 255)
     private String youtubeUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

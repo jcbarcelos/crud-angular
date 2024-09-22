@@ -4,17 +4,19 @@ import {
   FormGroup,
   NonNullableFormBuilder,
   UntypedFormArray,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 import { ICategory } from '../../interfaces/iCategory';
 import { ICourses } from '../../interfaces/ICourses';
 import { ILesson } from '../../interfaces/ILesson';
 import { CoursesService } from '../../services/courses.service';
+import { BaseFormService } from '../../../shared/components/base-form/base-form.service';
 
 @Component({
   selector: 'app-course-form',
@@ -24,16 +26,16 @@ import { CoursesService } from '../../services/courses.service';
 export class CourseFormComponent implements OnInit {
   course!: ICourses;
   category: string = 'Front-End';
-  form!: FormGroup;
+  form!: UntypedFormGroup;
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private service: CoursesService,
     public dialog: MatDialog,
-    private location: Location,
-    private route: ActivatedRoute,
-    private notificationAlertService: NotificationAlertService
+    private notificationAlertService: NotificationAlertService,
+    public baseFormService: BaseFormService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
-
   categories: ICategory[] = [
     {
       _id: 0,
@@ -44,10 +46,8 @@ export class CourseFormComponent implements OnInit {
       name: 'Back-end',
     },
   ];
-
   ngOnInit(): void {
     this.course = this.route.snapshot.data['course'];
-
     this.form = this.formBuilder.group({
       id: [this.course.id],
       name: [
@@ -56,7 +56,7 @@ export class CourseFormComponent implements OnInit {
           Validators.required,
           Validators.maxLength(200),
           Validators.required,
-          Validators.minLength(2),
+          Validators.minLength(5),
         ],
       ],
       category: [this.course.category, Validators.required],
@@ -69,29 +69,9 @@ export class CourseFormComponent implements OnInit {
       this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
   }
 
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-
-    if (field?.hasError('required')) {
-      return 'Campo obrigatório';
-    }
-    if (field?.hasError('maxlength')) {
-      const requiredLength: number = field.errors
-        ? field.errors['maxlength']['requiredLength']
-        : 200;
-      return `Campo deve ter no máximo de ${requiredLength} `;
-    }
-    if (field?.hasError('minlength')) {
-      const requiredLength: number = field.errors
-        ? field.errors['minlength']['requiredLength']
-        : 5;
-      return `Campo deve ter no mínimo de ${requiredLength} `;
-    }
-    return field;
-  }
   private retrieveLesson(course: ICourses) {
     const lessons = [];
-    if (course && course.lessons && course.lessons.length > 0) {
+    if (course.lessons !== undefined && course.lessons.length > 0) {
       course.lessons.forEach((lesson) =>
         lessons.push(this.createLesson(lesson))
       );
@@ -126,7 +106,7 @@ export class CourseFormComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(10),
-          Validators.maxLength(100),
+          Validators.maxLength(255),
         ],
       ],
     });
@@ -179,21 +159,17 @@ export class CourseFormComponent implements OnInit {
           },
           (error) => {
             console.log(error['error']['errors'][0]['codes']);
-
             return this.showError(error['error']['errors'][0]['codes']);
           }
         );
       }
     } else {
+      this.baseFormService.validateAllFormFields(this.form);
     }
-  }
-  isFormArrayRequiredLesson(): boolean {
-    const lessons = this.form.get('lessons') as UntypedFormArray;
-    return lessons.invalid && lessons.touched == false;
   }
 
   onCancel() {
-    this.location.back();
+    this.router.navigate([''], { relativeTo: this.route });
   }
   showSuccess() {
     this.notificationAlertService.success('Operação realizada com sucesso!');

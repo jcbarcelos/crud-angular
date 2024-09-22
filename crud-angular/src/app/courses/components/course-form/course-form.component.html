@@ -14,11 +14,11 @@
           required
           #name
         />
-        <mat-error *ngIf="form.get('name')?.invalid | json"
-          >{{ getErrorMessage("name") }}
-        </mat-error>
 
         <mat-hint align="end">{{ name.value.length || 0 }} / 200</mat-hint>
+        <mat-error *ngIf="form.get('name')?.invalid | json"
+          >{{ baseFormService.getErrorMessage(form, "name") }}
+        </mat-error>
       </mat-form-field>
       <p></p>
       <mat-form-field>
@@ -29,7 +29,7 @@
           </mat-option>
         </mat-select>
         <mat-error *ngIf="form.get('category')?.invalid">{{
-          getErrorMessage("category")
+          baseFormService.getErrorMessage(form, "category")
         }}</mat-error>
       </mat-form-field>
 
@@ -40,22 +40,34 @@
         </button>
       </mat-toolbar>
       <p></p>
-
+      <mat-error
+        *ngIf="baseFormService.isFormArrayRequiredLesson(form, 'lessons')"
+        class="form-arry-error"
+        >Adicione pelo menos uma Aula
+      </mat-error>
       <div
         class="container flex-wrap"
         formArrayName="lessons"
         style="padding: 0"
         *ngFor="let lesson of getLessonsFromArray(); let i = index"
       >
-        <div [formGroupName]="i" class="row">
+
+        <div [formGroupName]="i" class="row" *ngIf="i">
           <div class="col-7">
             <mat-form-field>
               <mat-label>Nome</mat-label>
               <input matInput formControlName="name" required #name />
               <mat-error
-                *ngIf="getLessonsFromArray()[i].get('name')?.invalid"
+                *ngIf="lesson.get('name')?.invalid"
                 class="form-arry-error"
-                >Adicione uma Aula
+                >{{
+                  baseFormService.getFormArrayFieldErrorMessage(
+                    form,
+                    "lessons",
+                    "name",
+                    i
+                  )
+                }}
               </mat-error>
             </mat-form-field>
           </div>
@@ -73,10 +85,17 @@
               />
               <mat-icon matSuffix>link</mat-icon>
               <mat-error
-              *ngIf="getLessonsFromArray()[i].get('youtubeUrl')?.invalid"
-              class="form-arry-error"
-              >Adicione uma URL
-            </mat-error>
+                *ngIf="lesson.get('youtubeUrl')?.invalid"
+                class="form-arry-error"
+                >{{
+                  baseFormService.getFormArrayFieldErrorMessage(
+                    form,
+                    "lessons",
+                    "youtubeUrl",
+                    i
+                  )
+                }}
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="col-1">
