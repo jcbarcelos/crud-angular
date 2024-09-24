@@ -4,7 +4,8 @@ import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition
+  MatSnackBarRef,
+  MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { NotificationAlertComponent } from './notification-alert.component';
 
@@ -16,18 +17,18 @@ export class NotificationAlertService {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(private snackBar: MatSnackBar) {}
-
-
-
-  success(message: string, duration: number = 3000): void {
-    this.showNotification(message, 'check_circle', 'success-snackbar', duration);
+  success(message: string, duration: number = 10000): void {
+    this.showNotification(
+      message,
+      'check_circle',
+      'success-snackbar',
+      duration
+    );
   }
 
-
-  error(message: string, duration: number = 3000): void {
+  error(message: string, duration: number = 5000): void {
     this.showNotification(message, 'error', 'error-snackbar', duration);
   }
-
 
   private showNotification(
     message: string,
@@ -40,13 +41,32 @@ export class NotificationAlertService {
         message: message,
         icon: icon,
       },
-      duration: duration,
+      //duration: duration,
       panelClass: [panelClass],
       horizontalPosition: 'right',
       verticalPosition: 'top',
     };
 
-    this.snackBar.openFromComponent(NotificationAlertComponent, config);
-  }
+    const snackBarRef = this.snackBar.openFromComponent(
+      NotificationAlertComponent,
+      config
+    );
+    // Captura a ação de "Sim"
+    snackBarRef.onAction().subscribe((result) => {
+      console.log('Ação confirmada: ', result);
+      //snackBarRef.dismissWithAction();
+    });
 
+    // Após o SnackBar ser fechado, verifica se foi fechado por uma ação
+    snackBarRef.afterDismissed().subscribe((info) => {
+      if (info.dismissedByAction) {
+        console.log('Ação confirmada: Não');
+        this.closeNotification();
+      }
+
+    });
+  }
+  closeNotification() {
+    this.snackBar.dismiss();
+  }
 }

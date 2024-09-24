@@ -24,17 +24,23 @@ export class CoursesService {
   }
 
   saveCourses(record: Partial<ICourses>) {
+    console.log(record.id);
+
     if (record.id) {
       return this.updateCourses(record);
     }
     return this.create(record);
   }
 
-  updateCourses(record: Partial<ICourses>) {
-    return this.httpClient.put<ICourses>(`${this.API}/${record.id}`, record);
+  private updateCourses(record: Partial<ICourses>) {
+    return this.httpClient
+      .put<ICourses>(`${this.API}/${record.id}`, record)
+      .pipe(first());
   }
-  deleteCourses(record: Partial<ICourses>) {
-    return this.httpClient.delete<ICourses>(`${this.API}/${record.id}`);
+  deleteCourses(id: string) {
+    return this.httpClient
+      .delete<ICourses>(`${this.API}/${id}`)
+      .pipe(first());
   }
 
   private create(record: Partial<ICourses>) {

@@ -25,7 +25,7 @@ import { BaseFormService } from '../../../shared/components/base-form/base-form.
 })
 export class CourseFormComponent implements OnInit {
   course!: ICourses;
-  category: string = 'Front-End';
+  category: string = '';
   form!: UntypedFormGroup;
   constructor(
     private formBuilder: NonNullableFormBuilder,
@@ -35,7 +35,9 @@ export class CourseFormComponent implements OnInit {
     public baseFormService: BaseFormService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.loadCourses();
+  }
   categories: ICategory[] = [
     {
       _id: 0,
@@ -47,6 +49,9 @@ export class CourseFormComponent implements OnInit {
     },
   ];
   ngOnInit(): void {
+    this.loadCourses();
+  }
+  loadCourses() {
     this.course = this.route.snapshot.data['course'];
     this.form = this.formBuilder.group({
       id: [this.course.id],
@@ -65,13 +70,10 @@ export class CourseFormComponent implements OnInit {
         Validators.required
       ),
     });
-    this.category =
-      this.course.category == 'BACKEND' ? 'Back-end' : 'Front-end';
   }
-
   private retrieveLesson(course: ICourses) {
     const lessons = [];
-    if (course.lessons !== undefined && course.lessons.length > 0) {
+    if (course.lessons !== undefined) {
       course.lessons.forEach((lesson) =>
         lessons.push(this.createLesson(lesson))
       );
@@ -86,7 +88,7 @@ export class CourseFormComponent implements OnInit {
   }
   private createLesson(
     lesson: ILesson = {
-      id: 0,
+      id: '',
       name: '',
       youtubeUrl: '',
     }
@@ -121,61 +123,40 @@ export class CourseFormComponent implements OnInit {
   }
   onSubmit() {
     if (this.form.valid) {
-      if (this.course.id === '' || this.course.id === undefined) {
-        const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-          data: 'Salvo com sucesso, deseja continuar cadastrando?',
-        });
-        dialogRef.afterClosed().subscribe((result: boolean) => {
-          if (result) {
-            this.service.saveCourses(this.form.value).subscribe(
-              () => {
-                this.showSuccess();
-              },
-              (_) => {
-                console.log('error ao salvar');
-
-                return this.showError('error ao salvar');
-              }
-            );
-          } else {
-            this.service.saveCourses(this.form.value).subscribe(
-              () => {
-                this.showSuccess();
-              },
-              (error) => {
-                console.log(error['error']['errors'][0]['codes']);
-
-                return this.showError(error);
-              }
-            );
-            this.onCancel();
-          }
-        });
-      } else {
-        this.service.saveCourses(this.form.value).subscribe(
-          () => {
-            this.showSuccess();
-            this.onCancel();
-          },
-          (error) => {
-            console.log(error['error']['errors'][0]['codes']);
-            return this.showError(error['error']['errors'][0]['codes']);
-          }
-        );
-      }
-    } else {
-      this.baseFormService.validateAllFormFields(this.form);
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: 'Salvo com sucesso, deseja continuar cadastrando?',
+      });
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          this.service.saveCourses(this.form.value).subscribe(
+            () => {
+              this.showSuccess();
+              this.newCourses();
+            },
+            (_) => {
+              console.log('error ao salvar');
+              return this.showError('error ao salvar');
+            }
+          );
+        } else {
+          this.baseFormService.validateAllFormFields(this.form);
+        }
+      });
     }
   }
 
   onCancel() {
     this.router.navigate([''], { relativeTo: this.route });
   }
+  newCourses() {
+    this.notificationAlertService.success('Deseja continuar cadastrando!');
+    //    this.form.reset();
+  }
   showSuccess() {
     this.notificationAlertService.success('Operação realizada com sucesso!');
-    this.form.reset();
   }
   showError(message: string) {
     this.notificationAlertService.error(message);
+    // this.notificationAlertService.closeNotification();
   }
 }

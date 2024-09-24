@@ -9,6 +9,7 @@ import com.rasec23rj.crud_spring.dto.CourseDTO;
 import com.rasec23rj.crud_spring.dto.LessonDTO;
 import com.rasec23rj.crud_spring.enums.Category;
 import com.rasec23rj.crud_spring.models.Courses;
+import com.rasec23rj.crud_spring.models.Lesson;
 
 @Component
 public class CourseMapper {
@@ -17,13 +18,14 @@ public class CourseMapper {
         if (courses == null) {
             return null;
         }
-        List<LessonDTO> lessonDTOs = courses.getLessons()
+        List<LessonDTO> lessons = courses.getLessons()
                 .stream()
-                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(), lesson.getYoutubeUrl()))
+                .map(lesson -> new LessonDTO(lesson.getId(), lesson.getName(),
+                        lesson.getYoutubeUrl()))
                 .collect(Collectors.toList());
 
-        return new CourseDTO(courses.getId(), courses.getName(), courses.getCategory(), courses.getStatus(),
-                lessonDTOs);
+        return new CourseDTO(courses.getId(), courses.getName(), courses.getCategory().getValue(),
+         lessons);
     }
 
     public Courses toEntity(CourseDTO courseDTO) {
@@ -35,9 +37,20 @@ public class CourseMapper {
         if (courseDTO.id() != null) {
             courses.setId(courseDTO.id());
         }
-       
+
         courses.setName(courseDTO.name());
-        courses.setCategory(convertCategoryValue(courseDTO.category().getValue()));
+        courses.setCategory(convertCategoryValue(courseDTO.category()));
+
+     
+        List<Lesson> lessons = courseDTO.lessons().stream().map(lessonDTO -> {
+            var lesson = new Lesson();
+            lesson.setId(lessonDTO.id());
+            lesson.setName(lessonDTO.name());
+            lesson.setYoutubeUrl(lessonDTO.youtubeUrl());
+            lesson.setCourses(courses);
+            return lesson;
+        }).collect(Collectors.toList());
+        courses.setLessons(lessons);
         return courses;
     }
 
@@ -46,8 +59,8 @@ public class CourseMapper {
             return null;
 
         return switch (category) {
-            case "Front-end" -> Category.FRONTEND;
-            case "Back-end" -> Category.BACKEND;
+            case "Front-end" -> Category.FRONT_END;
+            case "Back-end" -> Category.FRONT_END;
             default -> throw new IllegalArgumentException("Invalid category value: " + category);
 
         };

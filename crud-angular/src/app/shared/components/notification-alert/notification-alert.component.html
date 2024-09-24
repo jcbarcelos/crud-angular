@@ -1,5 +1,8 @@
-
 <div class="notification-container">
   <mat-icon class="notification-icon">{{ data.icon }}</mat-icon>
   <span class="notification-message">{{ data.message }}</span>
+  <span matSnackBarActions>
+    <button mat-button matSnackBarAction (click)="confirm()">Sim</button>
+    <button mat-button matSnackBarAction (click)="cancel()">Não</button>
+  </span>
 </div>

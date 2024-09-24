@@ -1,11 +1,12 @@
 package com.rasec23rj.crud_spring.enums;
 
+
 public enum Category {
-    BACKEND("Back-end"), FRONTEND("Front-end");
+    BACK_END("Back-end"), FRONT_END("Front-end");
 
     private String value;
 
-    Category(String value) {
+    private Category(String value) {
         this.value = value;
     }
 
@@ -17,4 +18,6 @@ public enum Category {
     public String toString() {
         return value;
     }
+
+ 
 }

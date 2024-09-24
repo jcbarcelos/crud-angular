@@ -10,3 +10,8 @@
 // .success-snackbar{
 //   --mdc-snackbar-container-shape: 4px !important;
 // }
+.mat-mdc-snack-bar-container
+  .mat-mdc-button.mat-mdc-snack-bar-action:not(:disabled) {
+  color: white;
+  --mat-mdc-button-persistent-ripple-color: currentColor;
+}

@@ -99,13 +99,15 @@ export class CoursesComponent implements AfterViewInit {
   onEdit(course: any) {
     this.router.navigate(['edit', course.id], { relativeTo: this.route });
   }
-  onDelete(course: any) {
+  onDelete(course: ICourses) {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'Tem certeza que deseja remover esse curso',
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result == true) {
-        this.coursesService.deleteCourses(course).subscribe(
+      console.log('result ' , result);
+
+      if (result) {
+        this.coursesService.deleteCourses(course.id).subscribe(
           () => {
             this.onSuccess('Delete success');
             this.loadData();

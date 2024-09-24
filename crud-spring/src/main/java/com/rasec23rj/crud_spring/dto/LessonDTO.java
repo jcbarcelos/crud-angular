@@ -1,11 +1,13 @@
 package com.rasec23rj.crud_spring.dto;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record LessonDTO(
-        Long id,
-       @NotBlank @NotNull String name,
-       @NotBlank @NotNull String youtubeUrl) {
+                Long id,
+                @NotNull @NotBlank @Length(min = 5, max = 100) String name,
+                @NotNull @NotBlank @Length(min = 10, max = 100) String youtubeUrl) {
 
 }

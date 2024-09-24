@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.rasec23rj.crud_spring.dto.CourseDTO;
 import com.rasec23rj.crud_spring.dto.mapper.CourseMapper;
 import com.rasec23rj.crud_spring.exception.RecordNotFoundException;
+import com.rasec23rj.crud_spring.models.Courses;
 import com.rasec23rj.crud_spring.repository.CoursesRepository;
 
 import jakarta.validation.Valid;
@@ -48,12 +48,15 @@ public class CoursesService {
         return courseMapper.toDto(coursesRepository.save(courseMapper.toEntity(courses)));
     }
 
-    public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO courses) {
+    public CourseDTO update(@NotNull @Positive Long id, @Valid @NotNull CourseDTO coursesDTO) {
 
         return coursesRepository.findById(id)
                 .map(record -> {
-                    record.setName(courses.name());
-                    record.setCategory(courses.category());
+                    Courses courses = courseMapper.toEntity(coursesDTO);
+                    record.setName(coursesDTO.name());
+                    record.setCategory(courseMapper.convertCategoryValue(coursesDTO.category()));
+                    record.getLessons().clear();
+                    courses.getLessons().forEach(record.getLessons()::add);
                     return courseMapper.toDto(coursesRepository.save(record));
                 })
                 .orElseThrow(() -> new RecordNotFoundException(id));

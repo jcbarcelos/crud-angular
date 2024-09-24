@@ -23,7 +23,7 @@
       <p></p>
       <mat-form-field>
         <mat-label>Category</mat-label>
-        <mat-select [(value)]="category">
+        <mat-select [(value)]="category" formControlName="category">
           <mat-option *ngFor="let cate of categories" [value]="cate.name">
             {{ cate.name }}
           </mat-option>
@@ -52,7 +52,7 @@
         *ngFor="let lesson of getLessonsFromArray(); let i = index"
       >
 
-        <div [formGroupName]="i" class="row" *ngIf="i">
+        <div [formGroupName]="i" class="row">
           <div class="col-7">
             <mat-form-field>
               <mat-label>Nome</mat-label>

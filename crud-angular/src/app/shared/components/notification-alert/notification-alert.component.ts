@@ -13,4 +13,13 @@ import {
 export class NotificationAlertComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {}
   snackBarRef = inject(MatSnackBarRef);
+
+  confirm() {
+    this.snackBarRef?.dismissWithAction(); // Dispara a ação e fecha o SnackBar
+  }
+
+  // Método chamado ao clicar no botão "Não"
+  cancel() {
+    this.snackBarRef?.dismiss(); // Fecha o SnackBar sem acionar a ação
+  }
 }

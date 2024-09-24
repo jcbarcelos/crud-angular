@@ -2,21 +2,24 @@ package com.rasec23rj.crud_spring.dto;
 
 import java.util.List;
 
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rasec23rj.crud_spring.enums.Category;
-import com.rasec23rj.crud_spring.enums.Status;
+import com.rasec23rj.crud_spring.enums.validation.ValueOfEnum;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CourseDTO(
-        @JsonProperty("id") Long id,
-        @NotBlank @NotNull @Size(min = 5, max = 100) String name,
-        @NotNull Category category,
-        Status status,
-        @JsonProperty("lessons") List<LessonDTO> lessons
+                @JsonProperty("id") Long id,
+                @NotBlank @NotNull @Size(min = 5, max = 100) String name,
+                @NotNull @Length(max = 10) @ValueOfEnum(enumClass = Category.class) String category,
+                @NotNull @NotEmpty @Valid List<LessonDTO> lessons
 
-        ) {
+) {
 
 }
