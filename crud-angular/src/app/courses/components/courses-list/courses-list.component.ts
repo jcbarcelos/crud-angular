@@ -34,7 +34,6 @@ export class CoursesListComponent implements AfterViewInit {
 
 
   ngAfterViewInit() {
-    console.log(this.paginator);
     if (this.dataSource && this.paginator) {
       this.dataSource.paginator = this.paginator; // Conectando o paginador à fonte de dados
     }

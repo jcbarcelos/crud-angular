@@ -3,6 +3,7 @@ package com.rasec23rj.crud_spring.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
 import com.rasec23rj.crud_spring.enums.Category;
@@ -27,28 +28,41 @@ import jakarta.validation.constraints.Size;
 
 
 @Entity
-// @SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
+@SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
 @SQLRestriction(value = "status = 'Active' ")
 public class Courses {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @NotEmpty
     @NotBlank
+    @Valid
     @Column(nullable = false, length = 100)
     @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     private String name;
 
-    @Column(nullable = false, length = 10)
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Valid
+    @Column(nullable = false, length = 100)
+    @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    @Valid
     @Column(nullable = false, length = 10)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
 
     @NotNull
     @NotEmpty
+    @NotBlank
     @Valid
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons = new ArrayList<>();

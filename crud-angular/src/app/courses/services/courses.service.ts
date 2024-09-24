@@ -13,18 +13,15 @@ export class CoursesService {
 
   constructor(private httpClient: HttpClient) {}
 
-  listCourses(page: number, size: number): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
-    return this.httpClient.get<ICourses[]>(this.API, { params });
+  listCourses(page: number, pageSize: number): Observable<any> {
+    return this.httpClient.get<ICourses[]>(this.API, { params: {page, pageSize} });
   }
   getByIdCourses(id: string) {
     return this.httpClient.get<ICourses>(`${this.API}/${id}`);
   }
 
   saveCourses(record: Partial<ICourses>) {
-    console.log(record.id);
+    console.log(record);
 
     if (record.id) {
       return this.updateCourses(record);

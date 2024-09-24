@@ -123,40 +123,29 @@ export class CourseFormComponent implements OnInit {
   }
   onSubmit() {
     if (this.form.valid) {
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: 'Salvo com sucesso, deseja continuar cadastrando?',
-      });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.service.saveCourses(this.form.value).subscribe(
-            () => {
-              this.showSuccess();
-              this.newCourses();
-            },
-            (_) => {
-              console.log('error ao salvar');
-              return this.showError('error ao salvar');
-            }
-          );
-        } else {
-          this.baseFormService.validateAllFormFields(this.form);
+      this.service.saveCourses(this.form.value).subscribe(
+        () => {
+          this.showSuccess();
+          this.onCancel();
+        },
+        (_) => {
+          console.log('error ao salvar');
+          return this.showError('error ao salvar');
         }
-      });
+      );
+    } else {
+      this.baseFormService.validateAllFormFields(this.form);
     }
   }
 
   onCancel() {
     this.router.navigate([''], { relativeTo: this.route });
   }
-  newCourses() {
-    this.notificationAlertService.success('Deseja continuar cadastrando!');
-    //    this.form.reset();
-  }
+
   showSuccess() {
     this.notificationAlertService.success('Operação realizada com sucesso!');
   }
   showError(message: string) {
     this.notificationAlertService.error(message);
-    // this.notificationAlertService.closeNotification();
   }
 }

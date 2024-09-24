@@ -15,10 +15,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CourseDTO(
-                @JsonProperty("id") Long id,
-                @NotBlank @NotNull @Size(min = 5, max = 100) String name,
-                @NotNull @Length(max = 10) @ValueOfEnum(enumClass = Category.class) String category,
-                @NotNull @NotEmpty @Valid List<LessonDTO> lessons
+        @JsonProperty("id") Long id,
+        @NotNull @NotEmpty @NotBlank @Valid @Size(min = 5, max = 100) String name,
+        @NotNull @NotEmpty @NotBlank @Valid @Length(max = 100) @ValueOfEnum(enumClass = Category.class) String category,
+        @NotNull @NotEmpty @NotBlank @Valid List<LessonDTO> lessons
 
 ) {
 

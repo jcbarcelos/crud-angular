@@ -3,19 +3,24 @@ package com.rasec23rj.crud_spring.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.rasec23rj.crud_spring.dto.CourseDTO;
+import com.rasec23rj.crud_spring.dto.CoursePageDTO;
 import com.rasec23rj.crud_spring.dto.mapper.CourseMapper;
 import com.rasec23rj.crud_spring.exception.RecordNotFoundException;
 import com.rasec23rj.crud_spring.models.Courses;
 import com.rasec23rj.crud_spring.repository.CoursesRepository;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 
 @Validated
 @Service
@@ -29,12 +34,10 @@ public class CoursesService {
         this.courseMapper = courseMapper;
     }
 
-    public List<CourseDTO> getCourses(Pageable pageable) {
-        
-        return coursesRepository
-                .findAll().stream()
-                .map(courseMapper::toDto)
-                .collect(Collectors.toList());
+    public CoursePageDTO getCourses(@PositiveOrZero int page, @Positive @Max(100) int pageSize) {
+        Page<Courses> pageCourse = coursesRepository.findAll(PageRequest.of(page, pageSize));
+        List<CourseDTO> courses = pageCourse.get().map(courseMapper::toDto).collect(Collectors.toList());
+        return new CoursePageDTO(courses, pageCourse.getTotalElements(), pageCourse.getTotalPages());
 
     }
 

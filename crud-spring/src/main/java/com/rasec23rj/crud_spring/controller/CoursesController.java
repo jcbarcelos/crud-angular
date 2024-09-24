@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rasec23rj.crud_spring.dto.CourseDTO;
+import com.rasec23rj.crud_spring.dto.CoursePageDTO;
 import com.rasec23rj.crud_spring.service.CoursesService;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 
 @Validated
@@ -35,11 +38,10 @@ public class CoursesController {
     private final CoursesService coursesService;
 
     @GetMapping()
-    public List<CourseDTO> listCourses(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return coursesService.getCourses(pageable);
+    public CoursePageDTO listCourses(
+          @RequestParam(defaultValue = "0") @PositiveOrZero int page,
+            @RequestParam(defaultValue = "10") @Positive @Max(100) int pageSize) {
+        return coursesService.getCourses(page, pageSize);
     }
 
     @GetMapping("/{id}")

@@ -54,15 +54,14 @@ public class CourseMapper {
         return courses;
     }
 
-    public Category convertCategoryValue(String category) {
-        if (category == null)
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
             return null;
-
-        return switch (category) {
+        }
+        return switch (value) {
             case "Front-end" -> Category.FRONT_END;
-            case "Back-end" -> Category.FRONT_END;
-            default -> throw new IllegalArgumentException("Invalid category value: " + category);
-
+            case "Back-end" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Categoria inválida: " + value);
         };
     }
 

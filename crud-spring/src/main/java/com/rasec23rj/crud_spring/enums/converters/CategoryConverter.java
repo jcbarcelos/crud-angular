@@ -21,16 +21,13 @@ public class CategoryConverter implements AttributeConverter<Category, String> {
 
     @Override
     public Category convertToEntityAttribute(String value) {
-
         if (value == null) {
             return null;
         }
-
         return Stream.of(Category.values())
-                .filter(category -> category.getValue().equals(value))
+                .filter(c -> c.getValue().equals(value))
                 .findFirst()
                 .orElseThrow(IllegalArgumentException::new);
-
     }
 
 }

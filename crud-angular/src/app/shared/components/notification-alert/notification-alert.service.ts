@@ -17,7 +17,7 @@ export class NotificationAlertService {
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   constructor(private snackBar: MatSnackBar) {}
-  success(message: string, duration: number = 10000): void {
+  success(message: string, duration: number = 3000): void {
     this.showNotification(
       message,
       'check_circle',
@@ -41,30 +41,17 @@ export class NotificationAlertService {
         message: message,
         icon: icon,
       },
-      //duration: duration,
+      duration: duration,
       panelClass: [panelClass],
       horizontalPosition: 'right',
       verticalPosition: 'top',
     };
 
-    const snackBarRef = this.snackBar.openFromComponent(
+   this.snackBar.openFromComponent(
       NotificationAlertComponent,
       config
     );
-    // Captura a ação de "Sim"
-    snackBarRef.onAction().subscribe((result) => {
-      console.log('Ação confirmada: ', result);
-      //snackBarRef.dismissWithAction();
-    });
 
-    // Após o SnackBar ser fechado, verifica se foi fechado por uma ação
-    snackBarRef.afterDismissed().subscribe((info) => {
-      if (info.dismissedByAction) {
-        console.log('Ação confirmada: Não');
-        this.closeNotification();
-      }
-
-    });
   }
   closeNotification() {
     this.snackBar.dismiss();

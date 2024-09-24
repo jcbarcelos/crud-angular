@@ -58,7 +58,7 @@ export class CoursesComponent implements AfterViewInit {
       .listCourses(pageEvent.pageIndex, pageEvent.pageSize)
       .pipe(
         tap((result) => {
-          this.dataSource = new MatTableDataSource(result);
+          this.dataSource = new MatTableDataSource(result.courses);
           this.pageIndex = pageEvent.pageIndex;
           this.pageSize = pageEvent.pageSize;
           this.totalElements = result.totalElements;
