@@ -11,8 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -32,8 +30,6 @@ public class Lesson {
     }
 
     @NotNull
-    @NotEmpty
-    @NotBlank
     @Valid
     @Column(nullable = false, length = 100)
     @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
@@ -48,8 +44,6 @@ public class Lesson {
     }
 
     @NotNull
-    @NotEmpty
-    @NotBlank
     @Valid
     @Column(nullable = false, length = 255)
     @Size(min = 10, max = 255, message = "Name must be between 5 and 100 characters")
@@ -65,8 +59,6 @@ public class Lesson {
 
    
     @NotNull
-    @NotEmpty
-    @NotBlank
     @Valid
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "courses_id", nullable = false)

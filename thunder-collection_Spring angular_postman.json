@@ -1,0 +1,114 @@
+{
+    "info": {
+        "_postman_id": "0b1786bf-5ef2-4cab-98bb-115cc2347109",
+        "name": "Spring angular",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "getcourses",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8080/api/courses",
+                    "path": [
+                        "api",
+                        "courses"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080"
+                }
+            }
+        },
+        {
+            "name": "postcourses",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8080/api/courses",
+                    "path": [
+                        "api",
+                        "courses"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080"
+                },
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n      \"name\": \"Nodejs\",\n      \"category\": \"Back-end\",\n      \"lessons\": [\n        {\n          \"name\": \"ExpressJs\",\n          \"youtubeUrl\": \"dfdsfdsfdsfdsfdsfds\"\n        },\n        {\n          \"name\": \"dsdsadsa\",\n          \"youtubeUrl\": \"dsdsadsadas\"\n        }\n      ]\n\n  \n}"
+                }
+            }
+        },
+        {
+            "name": "putcourses",
+            "request": {
+                "method": "PUT",
+                "url": {
+                    "raw": "http://localhost:8080/api/courses/-1",
+                    "path": [
+                        "api",
+                        "courses",
+                        "-1"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080"
+                },
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\": \"NodeJs\",\n  \"category\": \"Back-end\",\n  \"lessons\": [\n    {\n      \"id\": 602,\n      \"name\": \"ExpressJs\",\n      \"youtubeUrl\": \"dfdsfdsfdsfdsfdsfds\"\n    },\n    {\n      \"id\": 603,\n      \"name\": \"dsdsadsa\",\n      \"youtubeUrl\": \"dsdsadsadas\"\n    }\n  ],\n  \"id\": 902\n}"
+                }
+            }
+        },
+        {
+            "name": "findidcourses",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8080/api/courses/as",
+                    "path": [
+                        "api",
+                        "courses",
+                        "as"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080"
+                }
+            }
+        }
+    ]
+}

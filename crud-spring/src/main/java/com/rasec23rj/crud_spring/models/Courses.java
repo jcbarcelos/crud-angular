@@ -20,12 +20,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
-
 
 @Entity
 @SQLDelete(sql = "UPDATE courses SET status = 'Inactive' WHERE id = ?")
@@ -35,38 +32,28 @@ public class Courses {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @NotEmpty
-    @NotBlank
+    @NotNull(message = "Name not null")
     @Valid
     @Column(nullable = false, length = 100)
     @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     private String name;
 
-    @NotNull
-    @NotEmpty
-    @NotBlank
+    @NotNull(message = "Category must be between 5 and 100 characters")
     @Valid
     @Column(nullable = false, length = 100)
-    @Size(min = 5, max = 100, message = "Name must be between 5 and 100 characters")
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
     @NotNull
-    @NotEmpty
-    @NotBlank
     @Valid
     @Column(nullable = false, length = 10)
     @Convert(converter = StatusConverter.class)
     private Status status = Status.ACTIVE;
 
     @NotNull
-    @NotEmpty
-    @NotBlank
     @Valid
     @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Lesson> lessons = new ArrayList<>();
-
 
     public Long getId() {
         return this.id;
