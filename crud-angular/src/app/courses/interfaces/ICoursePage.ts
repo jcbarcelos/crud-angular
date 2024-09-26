@@ -1,6 +1,6 @@
 import { ICourses } from "./ICourses";
 
-export interface CoursePage {
+export interface ICoursePage {
   courses: ICourses[];
   totalElements: number;
   totalPages: number;

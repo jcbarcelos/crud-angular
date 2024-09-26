@@ -2,19 +2,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ICourses } from '../interfaces/ICourses';
-import { environment } from 'src/environments/environment';
+import { environment as prod } from 'src/environments/environment.prod';
 import { Observable } from 'rxjs';
+import { ICoursePage } from '../interfaces/ICoursePage';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CoursesService {
-  private readonly API = environment.develop;
+  private readonly API =  prod.prod;
 
   constructor(private httpClient: HttpClient) {}
 
   listCourses(page: number, pageSize: number): Observable<any> {
-    return this.httpClient.get<ICourses[]>(this.API, { params: {page, pageSize} });
+    return this.httpClient.get<ICoursePage>(this.API, { params: {page, pageSize} }).pipe(first());
   }
   getByIdCourses(id: string) {
     return this.httpClient.get<ICourses>(`${this.API}/${id}`);

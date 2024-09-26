@@ -17,15 +17,16 @@ import { NotificationAlertService } from 'src/app/shared/components/notification
 import { SnackbarCustomComponent } from '../../shared/components/snackbarcustom/snackbar.custom.component';
 import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
+import { ICoursePage } from '../interfaces/ICoursePage';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
 })
-export class CoursesComponent implements AfterViewInit {
+export class CoursesComponent implements AfterViewInit{
   displayedColumns: string[] = ['name', 'category', 'actions'];
-  courses$: Observable<ICourses[]> | null = null;
+  courses$: Observable<ICoursePage> | null = null;
 
   pageIndex = 0;
   pageSize = 5;
@@ -62,19 +63,19 @@ export class CoursesComponent implements AfterViewInit {
           this.pageIndex = pageEvent.pageIndex;
           this.pageSize = pageEvent.pageSize;
           this.totalElements = result.totalElements;
-          this.paginator.length = this.totalElements;
         }),
         catchError((_) => {
           this.onError('Erro ao carregar cursos.');
-          return of([]);
+          return of({ courses: [], totalElements: 0, totalPages: 0 })
         })
       );
-    this.courses$.subscribe();
+
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
+    //this.loadData();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -104,7 +105,7 @@ export class CoursesComponent implements AfterViewInit {
       data: 'Tem certeza que deseja remover esse curso',
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      console.log('result ' , result);
+      console.log('result ', result);
 
       if (result) {
         this.coursesService.deleteCourses(course.id).subscribe(

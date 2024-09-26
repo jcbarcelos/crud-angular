@@ -1,35 +1,40 @@
-
 <mat-card>
   <mat-card-header color="primary">
     <mat-card-title>Courses Available</mat-card-title>
-    <button mat-mini-fab aria-label="Adicionar curso" color="accent"  (click)="onAdd()">
+    <button
+      mat-mini-fab
+      aria-label="Adicionar curso"
+      color="accent"
+      (click)="onAdd()"
+    >
       <mat-icon>add</mat-icon>
     </button>
   </mat-card-header>
+  <div *ngIf="courses$ | async as courses; else loading">
+    <mat-card-content>
+      <app-courses-list
+        class="column-flex mat-elevation-z8"
+        [courses]="courses.courses"
+        [dataSource]="dataSource"
+        (edit)="onEdit($event)"
+        (remove)="onDelete($event)"
+        (applyFilter)="applyFilter($event)"
+        [paginator]="paginator"
+        [displayedColumns]="displayedColumns"
+      >
+      </app-courses-list>
 
-  <mat-card-content>
-    <app-courses-list
-      class="column-flex mat-elevation-z8"
-      [dataSource]="dataSource"
-      (edit)="onEdit($event)"
-      (remove)="onDelete($event)"
-      (applyFilter)="applyFilter($event)"
-      [paginator]="paginator"
-      [displayedColumns]="displayedColumns"
-    >
-    </app-courses-list>
-
-    <mat-paginator
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      [length]="totalElements"
-      [pageLength]="totalElements"
-      (page)="loadData($event)"
-      [pageSizeOptions]="[2, 5, 10, 20]"
-      showFirstLastButtons="true"
-    ></mat-paginator>
-  </mat-card-content>
-
+      <mat-paginator
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [length]="courses.totalElements"
+        [pageLength]="totalElements"
+        (page)="loadData($event)"
+        [pageSizeOptions]="[2, 5, 10, 20]"
+        showFirstLastButtons="true"
+      ></mat-paginator>
+    </mat-card-content>
+  </div>
   <ng-template #loading>
     <div class="loafing-spinner">
       <mat-spinner></mat-spinner>

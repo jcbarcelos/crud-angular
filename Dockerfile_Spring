@@ -1,0 +1,25 @@
+# Etapa 1: Build da aplicação
+FROM maven:3.8.4-openjdk-17 AS build
+WORKDIR /app
+# Copiar o arquivo pom.xml e as dependências Maven primeiro
+COPY crud-spring/pom.xml /app/
+
+# # Instalar as dependências (isso cacheia o download das dependências)
+# RUN mvn dependency:go-offline
+
+# Copiar o restante do código
+COPY crud-spring /app
+
+# Compilar a aplicação
+RUN mvn install compile clean package -Dmaven.test.skip=true
+
+
+# Usar uma imagem base do OpenJDK
+FROM openjdk:17-jdk-alpine
+
+# Definir o diretório de trabalho dentro do container
+WORKDIR /app
+
+COPY --from=build /app/target/crud-spring-0.0.1-SNAPSHOT.jar /app/crud-spring.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/crud-spring.jar"]

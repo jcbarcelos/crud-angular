@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  develop: 'api/courses'
+  develop: 'http://localhost:8080/api/courses'
 
 };
 

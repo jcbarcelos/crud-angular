@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 services:
   crud-angular-db:
@@ -15,5 +15,37 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  crud_spring:
+    build:
+      context: .
+      dockerfile: Dockerfile_Spring
+    container_name: crud_spring
+    ports:
+      - "8080:8080"
+    networks:
+      - springboot-network
+    depends_on:
+      - crud-angular-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://crud-angular-db:5434/crudangulardb
+      SPRING_DATASOURCE_USERNAME: crudangular
+      SPRING_DATASOURCE_PASSWORD: crudangularpass
+
+  # crud_angular:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile_Angular
+  #   container_name: crud_angular
+  #   ports:
+  #     - "4200:80"
+  #   networks:
+  #     - springboot-network
+  #   depends_on:
+  #     - crud_spring
+
 volumes:
   postgres_data:
+
+networks:
+  springboot-network:
+    driver: bridge

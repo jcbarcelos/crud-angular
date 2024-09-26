@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
@@ -18,7 +18,7 @@ import { ICourses } from '../../interfaces/ICourses';
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss'],
 })
-export class CoursesListComponent implements AfterViewInit {
+export class CoursesListComponent {
   @Input() courses: ICourses[] = [];
   @Input() dataSource = new MatTableDataSource<ICourses>();
 
@@ -30,16 +30,11 @@ export class CoursesListComponent implements AfterViewInit {
   @Input() paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {}
+  constructor() {
 
-
-  ngAfterViewInit() {
-    if (this.dataSource && this.paginator) {
-      this.dataSource.paginator = this.paginator; // Conectando o paginador à fonte de dados
-    }
+    this.courses.map((course) => this.dataSource.data.push(course));
+    console.log( this.dataSource.data);
   }
-
-  async refresh() {}
 
   onEdit(course: ICourses) {
     this.edit.emit(course);
