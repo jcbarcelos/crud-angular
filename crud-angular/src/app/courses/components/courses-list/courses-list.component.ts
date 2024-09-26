@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -8,15 +7,25 @@ import {
 } from '@angular/core';
 
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ICourses } from '../../interfaces/ICourses';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-courses-list',
   templateUrl: './courses-list.component.html',
   styleUrls: ['./courses-list.component.scss'],
+  standalone: true,
+  imports: [
+    MatFormFieldModule,
+    MatTableModule,
+    MatIconModule,
+    MatTableModule,
+    MatSortModule,
+  ],
 })
 export class CoursesListComponent {
   @Input() courses: ICourses[] = [];
@@ -31,9 +40,8 @@ export class CoursesListComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor() {
-
     this.courses.map((course) => this.dataSource.data.push(course));
-    console.log( this.dataSource.data);
+    console.log(this.dataSource.data);
   }
 
   onEdit(course: ICourses) {

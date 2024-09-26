@@ -1,10 +1,10 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { ICourses } from '../interfaces/ICourses';
-import { environment as prod } from 'src/environments/environment.prod';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
+import { environment as prod } from 'src/environments/environment.prod';
 import { ICoursePage } from '../interfaces/ICoursePage';
+import { ICourses } from '../interfaces/ICourses';
 
 @Injectable({
   providedIn: 'root',

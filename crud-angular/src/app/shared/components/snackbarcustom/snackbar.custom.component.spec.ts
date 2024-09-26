@@ -9,8 +9,8 @@ describe('SnackbarcustomComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SnackbarCustomComponent ]
-    })
+    imports: [SnackbarCustomComponent]
+})
     .compileComponents();
   });
 

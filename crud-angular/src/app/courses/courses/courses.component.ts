@@ -5,7 +5,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,16 +23,29 @@ import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { CoursesListComponent } from '../components/courses-list/courses-list.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
   standalone: true,
-  imports: [MatButtonModule, MatDividerModule, MatIconModule],
+  imports: [
+    MatCardModule,
+    MatToolbarModule,
+    CoursesListComponent,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    AsyncPipe,
+    MatButtonModule,
+    MatIconModule,
+  ],
 })
-export class CoursesComponent implements AfterViewInit{
+export class CoursesComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'category', 'actions'];
   courses$: Observable<ICoursePage> | null = null;
 
@@ -70,10 +87,9 @@ export class CoursesComponent implements AfterViewInit{
         }),
         catchError((_) => {
           this.onError('Erro ao carregar cursos.');
-          return of({ courses: [], totalElements: 0, totalPages: 0 })
+          return of({ courses: [], totalElements: 0, totalPages: 0 });
         })
       );
-
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

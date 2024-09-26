@@ -25,10 +25,10 @@
       </app-courses-list>
 
       <mat-paginator
+
         [pageIndex]="pageIndex"
         [pageSize]="pageSize"
         [length]="courses.totalElements"
-        [pageLength]="totalElements"
         (page)="loadData($event)"
         [pageSizeOptions]="[2, 5, 10, 20]"
         showFirstLastButtons="true"

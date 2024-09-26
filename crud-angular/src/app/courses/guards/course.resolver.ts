@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {  RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { CoursesService } from '../services/courses.service';
 import { ICourses } from '../interfaces/ICourses';
+import { CoursesService } from '../services/courses.service';
 
 @Injectable({
   providedIn: 'root',

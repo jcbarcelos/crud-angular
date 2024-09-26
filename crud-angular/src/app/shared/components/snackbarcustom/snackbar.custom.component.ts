@@ -3,9 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-snackbar.custom',
-  templateUrl: './snackbar.custom.component.html',
-  styleUrls: ['./snackbar.custom.component.scss'],
+    selector: 'app-snackbar.custom',
+    templateUrl: './snackbar.custom.component.html',
+    styleUrls: ['./snackbar.custom.component.scss'],
+    standalone: true,
 })
 export class SnackbarCustomComponent {
   constructor(
