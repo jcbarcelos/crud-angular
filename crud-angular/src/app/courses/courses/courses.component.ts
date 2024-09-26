@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,14 +14,19 @@ import { catchError, tap } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertService } from 'src/app/shared/components/notification-alert/notification-alert.service';
 import { SnackbarCustomComponent } from '../../shared/components/snackbarcustom/snackbar.custom.component';
+import { ICoursePage } from '../interfaces/ICoursePage';
 import { ICourses } from '../interfaces/ICourses';
 import { CoursesService } from '../services/courses.service';
-import { ICoursePage } from '../interfaces/ICoursePage';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss'],
+  standalone: true,
+  imports: [MatButtonModule, MatDividerModule, MatIconModule],
 })
 export class CoursesComponent implements AfterViewInit{
   displayedColumns: string[] = ['name', 'category', 'actions'];
@@ -75,7 +79,6 @@ export class CoursesComponent implements AfterViewInit{
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
     this.cdr.detectChanges();
-    //this.loadData();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

@@ -1,14 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from './material.module';
-import { SnackbarCustomComponent } from './components/snackbarcustom/snackbar.custom.component';
-import { CategoryPipe } from './pipes/category.pipe';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { BaseFormComponent } from './components/base-form/base-form.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationAlertComponent } from './components/notification-alert/notification-alert.component';
-import { BaseFormComponent } from './components/base-form/base-form.component';
-
-
-
+import { SnackbarCustomComponent } from './components/snackbarcustom/snackbar.custom.component';
+import { CategoryPipe } from './pipes/category.pipe';
 
 @NgModule({
   declarations: [
@@ -16,17 +12,10 @@ import { BaseFormComponent } from './components/base-form/base-form.component';
     CategoryPipe,
     ConfirmationDialogComponent,
     NotificationAlertComponent,
-    BaseFormComponent
+    BaseFormComponent,
   ],
-  imports: [
-    CommonModule,
-    MaterialModule
-  ],
-  exports: [
-    MaterialModule,
-    SnackbarCustomComponent,
-    CategoryPipe
-  ],
-
+  imports: [CommonModule],
+  exports: [SnackbarCustomComponent, CategoryPipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class SharedModule { }
+export class SharedModule {}

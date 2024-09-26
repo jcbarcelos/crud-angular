@@ -1,3 +1,5 @@
+
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card {
   max-width: 100%;
   margin: 2em auto;
@@ -9,6 +11,7 @@ mat-card {
   justify-content: space-between;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card-actions {
   justify-content: center;
 }
@@ -20,6 +23,7 @@ mat-form-field {
  justify-content: left;
 
 }
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card-header {
   background: #7b1fa2;
   color: white;
@@ -27,6 +31,7 @@ mat-card-header {
   align-items: center;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card-title-group {
   margin: 0px 0px 10px 0;
 }
@@ -43,6 +48,7 @@ mat-card-title-group {
   mat-form-field {
     width: 85%;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   mat-card-header {
     width: 85%;
     background: #7b1fa2;
@@ -50,6 +56,7 @@ mat-card-title-group {
     margin: 0px 0px 10px 0;
     align-items: center;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   mat-card-title-group {
     width: 85%;
     margin: 0px 0px 10px 0;

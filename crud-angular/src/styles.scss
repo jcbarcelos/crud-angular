@@ -1,4 +1,6 @@
 @import "node_modules/bootstrap/scss/bootstrap";
+@use '@angular/material' as mat;
+@include mat.typography-hierarchy();
 
 html,
 body {
