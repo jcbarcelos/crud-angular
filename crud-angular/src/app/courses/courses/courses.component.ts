@@ -28,6 +28,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { CoursesListComponent } from '../components/courses-list/courses-list.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AsyncPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-courses',
@@ -43,6 +46,9 @@ import { AsyncPipe } from '@angular/common';
     AsyncPipe,
     MatButtonModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule
   ],
 })
 export class CoursesComponent implements AfterViewInit {

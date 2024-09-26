@@ -13,6 +13,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ICourses } from '../../interfaces/ICourses';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
   selector: 'app-courses-list',
@@ -25,6 +29,12 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
     MatTableModule,
     MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule
   ],
 })
 export class CoursesListComponent {

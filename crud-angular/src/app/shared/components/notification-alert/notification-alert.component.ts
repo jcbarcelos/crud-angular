@@ -1,3 +1,4 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Component, inject, Inject, ViewEncapsulation } from '@angular/core';
 import {
   MAT_SNACK_BAR_DATA,
@@ -10,6 +11,7 @@ import {
     styleUrls: ['./notification-alert.component.scss'],
     encapsulation: ViewEncapsulation.None,
     standalone: true,
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class NotificationAlertComponent {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {}

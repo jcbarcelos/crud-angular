@@ -24,11 +24,11 @@
     <mat-header-cell *matHeaderCellDef class="action-column">Ações
     </mat-header-cell>
     <mat-header-cell *matCellDef="let element" class="action-column">
-      <button mat-icon-button class="action-column-header" color="primary" aria-label="Editar curso"
+      <button mat-mini-fab class="action-column-header" aria-label="Editar curso"
         (click)="onEdit(element)">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button class="action-column-header" color="warn" aria-label="Remover curso"
+      <button mat-mini-fab class="action-column-header" color="warn" aria-label="Remover curso"
         (click)="onDelete(element)">
         <mat-icon>delete</mat-icon>
       </button>
